@@ -1,0 +1,32 @@
+---
+title: "Hello and welcome to me, myself, and R"
+author: "cocoyamo"
+date: "2024-06-06"
+output:
+  html_document: 
+    fig_caption: yes
+    theme: cerulean
+    toc: yes
+    toc_depth: 3
+    toc_float: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### My toxic relationship with R Studio
+
+Hi, I am a student (not anymore very soon) who has been struggling with R Studio. Loving it and hating it (sometimes).
+
+### What do I usually do with R Studio?
+
+I use statistical analysis like t-tests, ANOVAs, and linear regressions often. I love to make graphs inside R Studio. Therefore I think it would be a great idea to post my journey here, mostly so that I won't have to go to my past files and copy my codes whenever I want to do a new analysis.
+
+Sometimes I use R Studio to do funny stuff, like drawing national flags, just for fun. So you will probably see those here.
+
+Feel free to leave comments or suggestions, I am still a junior in the fascinating world of R, and am open to learn new things!
+
+Best, *cocoyamo*
+
+Reykjavik, 2024
