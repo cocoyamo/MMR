@@ -80,8 +80,8 @@ The code can look something like this. (But not identical! Because (hopefully) w
 
 ```{r}
 library(readxl)
-wether_math <- read_excel("example files/wether_math.xlsx")
-View(wether_math)
+#wether_math <- read_excel("example files/wether_math.xlsx")
+#View(wether_math)
 ```
 
 Now you have seen the ``Code Preview`` section, at the end of it there is a tiny icon looking like a clipboard, you do what? CLICK IT!
