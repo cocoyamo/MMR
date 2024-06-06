@@ -9,9 +9,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
-<meta name="author" content="cocoyamo" />
+<meta name="author" content="by cocoyamo" />
 
-<meta name="date" content="2024-06-06" />
 
 <title>Hello and welcome to me, myself, and R</title>
 
@@ -1510,20 +1509,19 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Hello and welcome to me, myself, and R</h1>
-<h4 class="author">cocoyamo</h4>
-<h4 class="date">2024-06-06</h4>
+<h1 class="title toc-ignore">Hello and welcome to <strong>me, myself,
+and R</strong></h1>
+<h4 class="author">by <em>cocoyamo</em></h4>
+<h4 class="date">updated: 2024-06-06</h4>
 
 </div>
 
 
-<div id="my-toxic-relationship-with-r-studio" class="section level3">
-<h3>My toxic relationship with R Studio</h3>
+<div id="introduction" class="section level2">
+<h2>introduction</h2>
+<p><strong>I have a toxic relationship with R Studio</strong></p>
 <p>Hi, I am a student (not anymore very soon) who has been struggling
 with R Studio. Loving it and hating it (sometimes).</p>
-</div>
-<div id="what-do-i-usually-do-with-r-studio" class="section level3">
-<h3>What do I usually do with R Studio?</h3>
 <p>I use statistical analysis like t-tests, ANOVAs, and linear
 regressions often. I love to make graphs inside R Studio. Therefore I
 think it would be a great idea to post my journey here, mostly so that I
@@ -1531,10 +1529,94 @@ won’t have to go to my past files and copy my codes whenever I want to
 do a new analysis.</p>
 <p>Sometimes I use R Studio to do funny stuff, like drawing national
 flags, just for fun. So you will probably see those here.</p>
-<p>Feel free to leave comments or suggestions, I am still a junior in
+<p>Feel free to leave comments or suggestions, I am still an infant in
 the fascinating world of R, and am open to learn new things!</p>
 <p>Best, <em>cocoyamo</em></p>
 <p>Reykjavik, 2024</p>
+</div>
+<div id="first-thing-first-install-and-library" class="section level2">
+<h2>first thing first: <code>install</code> and
+<code>library</code></h2>
+<p>I wish someone use this analogy when I was learning R Studio for the
+very first time.</p>
+<p>People are constantly saying “oh you need to <strong>install</strong>
+this package”, and therefore I install every packages every time I am
+using R Studio.</p>
+<p>Then people will ask you to “call the package out” using a function
+called <code>library</code>.</p>
+<p>These two things inside R Studio confused me a lot in the beginning,
+(and I was mocked by a teaching assistant who was very inconsiderate of
+people who have never learned coding before), hopefully here you can
+find some answer. And I will not mock you. I swear. I know the
+struggles.</p>
+<p>I now think of this as making a sandwich. Pick whatever sandwich you
+like. I will do a peanut butter and chocolate sandwich here.</p>
+<p>So, imagine you are going to make peanut butter and chocolate
+sandwich. You need ingredients. So you went to a nearby grocery store to
+purchase <em>chocolate spread</em>, <em>peanut butter</em>, and
+<em>toast</em>. (Feel free to switch to any other food you like, also
+please do not follow my recipe if you are allergic to peanut!)</p>
+<p>This step (getting ingredients from a store) is called
+<code>install</code>.</p>
+<p>Then, you go back to your kitchen, pull these ingredients out from
+your reusable bag, this action is similar to the <code>library</code>
+function.</p>
+<p>Let’s assume these ingredients will never run out. (What a heaven!)
+Then, the next time you want the peanut butter and chocolate sandwich,
+all you need to do is to pull out these ingredients again. <strong>There
+is no need to go back to the store every time you want it, you already
+have it in your kitchen!</strong></p>
+<p>Therefore, whenever you need to use some package you have not used
+before, you need to <code>install</code> them first, and then
+afterwards, the only thing you need to do is to use the
+<code>library</code> function to pull these magical stuff out of your
+bag.</p>
+<p>Okay, I hope you are still with me, and not already in the kitchen
+looking for your chocolate spread.</p>
+</div>
+<div id="import-filedataset" class="section level2">
+<h2>import file/dataset</h2>
+<p>Let’s import our data!</p>
+<p><strong>note: If this is your first time import data, and if your
+data is from an Excel file, then remember to type
+<code>install.packages(readxl)</code> on your coding space first.
+</strong></p>
+<p>There are of course tons of ways to import your data, but the
+following is what I use most often.</p>
+<p>I will click <code>Import Dataset</code> on the top right corner in
+the <code>Environment</code> box. Then choose <code>import</code>, chose
+<code>From Excel</code> (or <code>From Text</code> if I have a .csv
+file), then use <code>Browse</code> on the top right corner to pick up
+the file I want to import.</p>
+<p>You can either double-click or click it once and then click the
+“open” at the bottom right.</p>
+<p>The middle part is the <code>Data Preview</code>, you can see your
+data here, don’t import the wrong file!(I’ve done that multiple times,
+especially when I am lazy at giving files proper names :P)</p>
+<p>Then, you look at the bottom right corner, there is a section called
+<code>Code Preview</code>.</p>
+<p>The code can look something like this. (But not identical! Because
+(hopefully) we are using different file names.)</p>
+<p>Now you have seen the <code>Code Preview</code> section, at the end
+of it there is a tiny icon looking like a clipboard, you do what? CLICK
+IT!</p>
+<p><strong>Great Job!!</strong></p>
+<p>Now you have copied the code necessary to import your file, press
+<code>Import</code> at the bottom right.</p>
+<p>Go back to the coding section. Paste
+(<code>Ctrl + v</code>/<code>Command + v</code>) it on the coding
+section (the top left section of the interface).</p>
+<p>(Let’s hope R Studio never change their interface or else I will have
+to rewrite this part.)</p>
+</div>
+<div id="my-happiness-universe-with-tidyverse" class="section level2">
+<h2>my happiness universe with tidyverse</h2>
+</div>
+<div id="t-testswith-graph" class="section level2">
+<h2>t-tests(with graph)</h2>
+</div>
+<div id="anovasalso-with-graphs" class="section level2">
+<h2>ANOVAs(also with graphs)</h2>
 </div>
 
 
