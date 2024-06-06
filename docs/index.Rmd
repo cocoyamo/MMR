@@ -61,10 +61,6 @@ Let's import our data!
 
 **note: If this is your first time import data, and if your data is from an Excel file, then remember to type ``install.packages(readxl)`` on your coding space first. **
 
-```{r echo = FALSE}
-#install.packages("readxl")
-```
-
 There are of course tons of ways to import your data, but the following is what I use most often.
 
 I will click ``Import Dataset`` on the top right corner in the ``Environment`` box. 
@@ -80,8 +76,8 @@ The code can look something like this. (But not identical! Because (hopefully) w
 
 ```{r}
 library(readxl)
-#wether_math <- read_excel("example files/wether_math.xlsx")
-#View(wether_math)
+wether_math <- read_excel("~/Documents/MMR/example files/wether_math.xlsx") 
+View(wether_math)
 ```
 
 Now you have seen the ``Code Preview`` section, at the end of it there is a tiny icon looking like a clipboard, you do what? CLICK IT!
@@ -94,17 +90,156 @@ Go back to the coding section. Paste (``Ctrl + v``/``Command + v``) it on the co
 
 (Let's hope R Studio never change their interface or else I will have to rewrite this part.)
 
+Also, sometimes you can use ``head()`` to see the first few rows of your data, just to make sure everything went well.
 
-## my happiness universe with tidyverse
+```{r}
+head(wether_math)
+```
 
+## my happy universe with tidyverse
+```{r}
+library(dplyr)
+```
 
 
 ## t-tests(with graph)
+library(ggplot2)
 
+```
+binded_2122$year = as.factor(binded_2122$year)
 
+binded_2122 %>%
+  ggplot(aes(x = year, y = ceo_compensation)) +
+  geom_bar(stat = "summary", position = position_dodge(.9), width = .35, fill = "#BDD5EA") +
+  geom_errorbar(stat = "summary", position = position_dodge(.9), width = .12) +
+  #facet_wrap(emotion ~ ., scales = "free")+
+  theme_classic()
+```
+
+```
+
+ado_chi_acc_rt %>%
+  group_by(Subject,age, Consistency, Operation) %>%
+  summarise(acc = mean(Response_ACC)) -> semi
+ado_chi_acc_rt %>%
+  group_by(Subject,age, Consistency, Operation) %>%
+  summarise(medi_rt = median(Response_RT)) -> semi_rt
+semi %>%
+  left_join(semi_rt, by = c("Subject", "age", "Consistency","Operation")) -> all_age
+
+all_age %>%
+  ggplot(aes(x = Operation, y = acc, group = Consistency, fill = Consistency)) +
+  geom_bar(stat = "summary", position = position_dodge(.8), width = .8) +
+   facet_wrap(age~ ., scales = "free")+
+  coord_cartesian(ylim = c(0.5,1.05))+
+  geom_errorbar(stat = "summary", position = position_dodge(.8), width = .12) +
+  theme_light()
+```
 
 ## ANOVAs(also with graphs)
 
+```
+all_age %>%
+ # filter(age == "chi")%>%
+#  filter(Operation == "add") %>%
+  group_by(age) %>%
+  anova_test(
+    dv = acc,
+    wid = Subject,
+    type = NULL,
+   #  between = age,
+    # within = operation,
+    within = c(Consistency,Operation),
+   # within = Consistency, 
+    effect.size = "ges", #generalized eta squared
+    error = NULL,
+    white.adjust = FALSE,
+    observed = NULL,
+    detailed = F) 
+```
+
+
+## pivot your data like a pro
+
+```
+ado_roi %>%
+  pivot_longer(!Subject, names_to = "key", values_to = "value") -> ado_long_data
+View(ado_long_data)
+
+separate(
+  ado_long_data,
+  col = key,
+  into = c('Position', 'Location', 'snn', 'sn_num', 
+           'Consistency', 'Operation', 'problemsize',
+           'bf', 'n1'),
+  sep = "[^[:alnum:]]+",
+  remove = TRUE,
+  convert = FALSE
+) -> ado_dt
+View(ado_dt)
+```
+
+
+## left join right join
+```
+sub_RT %>%
+   left_join(sub_acc, by = c("subject")) -> sub_RT_acc
+```
+   
+   
+
+## different kinds of binding
+```
+cbind(ado_dt, ado_roi_neat) -> ado_bind
+View(ado_bind)
+```
+
+
+## select column & row
 
 
 
+## let's draw flags!
+```{r}
+library(ggplot2)
+library(dplyr)
+
+lith <- data.frame(name=c("A","B","C") ,
+                   value=c(4,4,4))
+
+lith %>%
+  ggplot(aes(x = name, y = value)) +
+  geom_bar(stat = "summary", width = 1, fill = c("#BE3A34","#046A38","#FFB81C")) +
+  coord_flip()+
+  theme_void()
+```
+
+
+```{r}
+latv <- data.frame(name=c("A","B","C") ,
+                   value=c(4,4,4))
+
+latv %>%
+  ggplot(aes(x = name, y = value)) +
+  geom_bar(stat = "identity", width = c(1.3, 0.9, 1.3), fill = c("#A4343A","#FFFFFF","#A4343A")) +
+  coord_flip()+
+  theme_void()
+```
+
+```{r}
+specie <- c("A","B" ,"C","D","E","F","G","H","I")
+condition <- c("a","b","c","d","d","c","d","c","d",
+               "e","a","b","c","d","c","d" ,"b","c",
+               "d","e","a","b","d","c","d","a" ,"b",
+               "c","d","e","a","d","c","d","e", "a" ,
+               "b","c","d","e","d" ,"c","d","d","e")
+value <- c(6, 0.75, 1, 0.75, 3)
+data <- data.frame(specie,condition,value)
+ggplot(data, aes(fill=condition, y=value, x=specie)) + 
+  geom_bar(position="fill", stat="identity", width = 1)+
+  scale_fill_manual(values=c("blue", "white", "red","white","blue")) +
+  coord_flip() +
+  theme_void()
+
+
+```
