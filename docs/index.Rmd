@@ -31,46 +31,45 @@ Best, *cocoyamo*
 
 Reykjavik, 2024
 
-## first thing first: ``install`` and ``library``
+## first thing first: `install` and `library`
 
-I wish someone use this analogy when I was learning R Studio for the very first time. 
+I wish someone use this analogy when I was learning R Studio for the very first time.
 
-People are constantly saying "oh you need to **install** this package", and therefore I install every packages every time I am using R Studio. 
+People are constantly saying "oh you need to **install** this package", and therefore I install every packages every time I am using R Studio.
 
-Then people will ask you to "call the package out" using a function called ``library``.
+Then people will ask you to "call the package out" using a function called `library`.
 
 These two things inside R Studio confused me a lot in the beginning, (and I was mocked by a teaching assistant who was very inconsiderate of people who have never learned coding before), hopefully here you can find some answer. And I will not mock you. I swear. I know the struggles.
 
-I now think of this as making a sandwich. Pick whatever sandwich you like. I will do a peanut butter and chocolate sandwich here. 
+I now think of this as making a sandwich. Pick whatever sandwich you like. I will do a peanut butter and chocolate sandwich here.
 
 So, imagine you are going to make peanut butter and chocolate sandwich. You need ingredients. So you went to a nearby grocery store to purchase *chocolate spread*, *peanut butter*, and *toast*. (Feel free to switch to any other food you like, also please do not follow my recipe if you are allergic to peanut!)
 
-This step (getting ingredients from a store) is called ``install``.
+This step (getting ingredients from a store) is called `install`.
 
-Then, you go back to your kitchen, pull these ingredients out from your reusable bag, this action is similar to the ``library`` function. 
+Then, you go back to your kitchen, pull these ingredients out from your reusable bag, this action is similar to the `library` function.
 
 Let's assume these ingredients will never run out. (What a heaven!) Then, the next time you want the peanut butter and chocolate sandwich, all you need to do is to pull out these ingredients again. **There is no need to go back to the store every time you want it, you already have it in your kitchen!**
 
-Therefore, whenever you need to use some package you have not used before, you need to ``install`` them first, and then afterwards, the only thing you need to do is to use the ``library`` function to pull these magical stuff out of your bag. 
+Therefore, whenever you need to use some package you have not used before, you need to `install` them first, and then afterwards, the only thing you need to do is to use the `library` function to pull these magical stuff out of your bag.
 
-Okay, I hope you are still with me, and not already in the kitchen looking for your chocolate spread. 
+Okay, I hope you are still with me, and not already in the kitchen looking for your chocolate spread.
 
 ## import file/dataset
 
 Let's import our data!
 
-**note: If this is your first time import data, and if your data is from an Excel file, then remember to type ``install.packages(readxl)`` on your coding space first. **
+**note: If this is your first time import data, and if your data is from an Excel file, then remember to type `install.packages("readxl")` on your coding space first.**
 
 There are of course tons of ways to import your data, but the following is what I use most often.
 
-I will click ``Import Dataset`` on the top right corner in the ``Environment`` box. 
-Then choose ``import``, chose ``From Excel`` (or ``From Text`` if I have a .csv file), then use ``Browse`` on the top right corner to pick up the file I want to import.
+I will click `Import Dataset` on the top right corner in the `Environment` box. Then choose `import`, chose `From Excel` (or `From Text` if I have a .csv file), then use `Browse` on the top right corner to pick up the file I want to import.
 
-You can either double-click or click it once and then click the "open" at the bottom right. 
+You can either double-click or click it once and then click the "open" at the bottom right.
 
-The middle part is the ``Data Preview``, you can see your data here, don't import the wrong file!(I've done that multiple times, especially when I am lazy at giving files proper names :P)
+The middle part is the `Data Preview`, you can see your data here, don't import the wrong file!(I've done that multiple times, especially when I am lazy at giving files proper names :P)
 
-Then, you look at the bottom right corner, there is a section called ``Code Preview``.
+Then, you look at the bottom right corner, there is a section called `Code Preview`.
 
 The code can look something like this. (But not identical! Because (hopefully) we are using different file names.)
 
@@ -80,126 +79,146 @@ wether_math <- read_excel("~/Documents/MMR/example files/wether_math.xlsx")
 View(wether_math)
 ```
 
-Now you have seen the ``Code Preview`` section, at the end of it there is a tiny icon looking like a clipboard, you do what? CLICK IT!
+Now you have seen the `Code Preview` section, at the end of it there is a tiny icon looking like a clipboard, you do what? CLICK IT!
 
 **Great Job!!**
 
-Now you have copied the code necessary to import your file, press ``Import`` at the bottom right. 
+Now you have copied the code necessary to import your file, press `Import` at the bottom right.
 
-Go back to the coding section. Paste (``Ctrl + v``/``Command + v``) it on the coding section (the top left section of the interface).
+Go back to the coding section. Paste (`Ctrl + v`/`Command + v`) it on the coding section (the top left section of the interface).
 
 (Let's hope R Studio never change their interface or else I will have to rewrite this part.)
 
-Also, sometimes you can use ``head()`` to see the first few rows of your data, just to make sure everything went well.
+Also, sometimes you can use `head()` to see the first few rows of your data, just to make sure everything went well.
 
 ```{r}
 head(wether_math)
 ```
 
+### a small explanation of this data
+
+Let us take a peek at this data, so you will have a better grasp in our future examples. 
+
+```{r}
+View(wether_math)
+```
+
+This is a made-up data. There are 10 imaginary people participate in this imaginary research. They do math test on both a rainy day and a sunny day. Their scores were recorded. 
+Therefore, the first column is the participant number, the second column is the weather (either sunny or rainy), and the third column is their scores. 
+
 ## my happy universe with tidyverse
+
+I really love tidyverse It is a game changer. It contains some of my most-used functions, like ``dplyr`` and ``ggplot2``.
+But first we need to know what it is. 
+**again, if you have not used ``tidyverse`` before, you also need to download the package first. **
+
+```{r }
+#install.packages("tidyverse")
+#install.packages("dplyr")
+```
+
+Great. Let's goooo.
+
+Here, an important function is called *pipe*. It's one of the greatest analogy in this century. Although how the pipe looks "``%>%``" does not look like a real pipe. We will meet this incredible feature in a few minutes.
+
 ```{r}
 library(dplyr)
 ```
 
+For example, we want to use some data to draw a bar chart. 
+
+
+```{r}
+library(readxl)
+wether_math <- read_excel("~/Documents/MMR/example files/wether_math.xlsx") 
+View(wether_math)
+```
+
+
 
 ## t-tests(with graph)
+
 library(ggplot2)
 
-```
-binded_2122$year = as.factor(binded_2122$year)
+    binded_2122$year = as.factor(binded_2122$year)
 
-binded_2122 %>%
-  ggplot(aes(x = year, y = ceo_compensation)) +
-  geom_bar(stat = "summary", position = position_dodge(.9), width = .35, fill = "#BDD5EA") +
-  geom_errorbar(stat = "summary", position = position_dodge(.9), width = .12) +
-  #facet_wrap(emotion ~ ., scales = "free")+
-  theme_classic()
-```
+    binded_2122 %>%
+      ggplot(aes(x = year, y = ceo_compensation)) +
+      geom_bar(stat = "summary", position = position_dodge(.9), width = .35, fill = "#BDD5EA") +
+      geom_errorbar(stat = "summary", position = position_dodge(.9), width = .12) +
+      #facet_wrap(emotion ~ ., scales = "free")+
+      theme_classic()
 
-```
 
-ado_chi_acc_rt %>%
-  group_by(Subject,age, Consistency, Operation) %>%
-  summarise(acc = mean(Response_ACC)) -> semi
-ado_chi_acc_rt %>%
-  group_by(Subject,age, Consistency, Operation) %>%
-  summarise(medi_rt = median(Response_RT)) -> semi_rt
-semi %>%
-  left_join(semi_rt, by = c("Subject", "age", "Consistency","Operation")) -> all_age
+    ado_chi_acc_rt %>%
+      group_by(Subject,age, Consistency, Operation) %>%
+      summarise(acc = mean(Response_ACC)) -> semi
+    ado_chi_acc_rt %>%
+      group_by(Subject,age, Consistency, Operation) %>%
+      summarise(medi_rt = median(Response_RT)) -> semi_rt
+    semi %>%
+      left_join(semi_rt, by = c("Subject", "age", "Consistency","Operation")) -> all_age
 
-all_age %>%
-  ggplot(aes(x = Operation, y = acc, group = Consistency, fill = Consistency)) +
-  geom_bar(stat = "summary", position = position_dodge(.8), width = .8) +
-   facet_wrap(age~ ., scales = "free")+
-  coord_cartesian(ylim = c(0.5,1.05))+
-  geom_errorbar(stat = "summary", position = position_dodge(.8), width = .12) +
-  theme_light()
-```
+    all_age %>%
+      ggplot(aes(x = Operation, y = acc, group = Consistency, fill = Consistency)) +
+      geom_bar(stat = "summary", position = position_dodge(.8), width = .8) +
+       facet_wrap(age~ ., scales = "free")+
+      coord_cartesian(ylim = c(0.5,1.05))+
+      geom_errorbar(stat = "summary", position = position_dodge(.8), width = .12) +
+      theme_light()
 
 ## ANOVAs(also with graphs)
 
-```
-all_age %>%
- # filter(age == "chi")%>%
-#  filter(Operation == "add") %>%
-  group_by(age) %>%
-  anova_test(
-    dv = acc,
-    wid = Subject,
-    type = NULL,
-   #  between = age,
-    # within = operation,
-    within = c(Consistency,Operation),
-   # within = Consistency, 
-    effect.size = "ges", #generalized eta squared
-    error = NULL,
-    white.adjust = FALSE,
-    observed = NULL,
-    detailed = F) 
-```
-
+    all_age %>%
+     # filter(age == "chi")%>%
+    #  filter(Operation == "add") %>%
+      group_by(age) %>%
+      anova_test(
+        dv = acc,
+        wid = Subject,
+        type = NULL,
+       #  between = age,
+        # within = operation,
+        within = c(Consistency,Operation),
+       # within = Consistency, 
+        effect.size = "ges", #generalized eta squared
+        error = NULL,
+        white.adjust = FALSE,
+        observed = NULL,
+        detailed = F) 
 
 ## pivot your data like a pro
 
-```
-ado_roi %>%
-  pivot_longer(!Subject, names_to = "key", values_to = "value") -> ado_long_data
-View(ado_long_data)
+    ado_roi %>%
+      pivot_longer(!Subject, names_to = "key", values_to = "value") -> ado_long_data
+    View(ado_long_data)
 
-separate(
-  ado_long_data,
-  col = key,
-  into = c('Position', 'Location', 'snn', 'sn_num', 
-           'Consistency', 'Operation', 'problemsize',
-           'bf', 'n1'),
-  sep = "[^[:alnum:]]+",
-  remove = TRUE,
-  convert = FALSE
-) -> ado_dt
-View(ado_dt)
-```
-
+    separate(
+      ado_long_data,
+      col = key,
+      into = c('Position', 'Location', 'snn', 'sn_num', 
+               'Consistency', 'Operation', 'problemsize',
+               'bf', 'n1'),
+      sep = "[^[:alnum:]]+",
+      remove = TRUE,
+      convert = FALSE
+    ) -> ado_dt
+    View(ado_dt)
 
 ## left join right join
-```
-sub_RT %>%
-   left_join(sub_acc, by = c("subject")) -> sub_RT_acc
-```
-   
-   
+
+    sub_RT %>%
+       left_join(sub_acc, by = c("subject")) -> sub_RT_acc
 
 ## different kinds of binding
-```
-cbind(ado_dt, ado_roi_neat) -> ado_bind
-View(ado_bind)
-```
 
+    cbind(ado_dt, ado_roi_neat) -> ado_bind
+    View(ado_bind)
 
 ## select column & row
 
-
-
 ## let's draw flags!
+
 ```{r}
 library(ggplot2)
 library(dplyr)
@@ -213,7 +232,6 @@ lith %>%
   coord_flip()+
   theme_void()
 ```
-
 
 ```{r}
 latv <- data.frame(name=c("A","B","C") ,

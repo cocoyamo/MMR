@@ -1579,8 +1579,8 @@ looking for your chocolate spread.</p>
 <p>Let’s import our data!</p>
 <p><strong>note: If this is your first time import data, and if your
 data is from an Excel file, then remember to type
-<code>install.packages(readxl)</code> on your coding space first.
-</strong></p>
+<code>install.packages(&quot;readxl&quot;)</code> on your coding space
+first.</strong></p>
 <p>There are of course tons of ways to import your data, but the
 following is what I use most often.</p>
 <p>I will click <code>Import Dataset</code> on the top right corner in
@@ -1623,9 +1623,32 @@ rows of your data, just to make sure everything went well.</p>
 ## 4     4 sunny     8
 ## 5     5 sunny     8
 ## 6     6 sunny     8</code></pre>
+<div id="a-small-explanation-of-this-data" class="section level3">
+<h3>a small explanation of this data</h3>
+<p>Let us take a peek at this data, so you will have a better grasp in
+our future examples.</p>
+<pre class="r"><code>View(wether_math)</code></pre>
+<p>This is a made-up data. There are 10 imaginary people participate in
+this imaginary research. They do math test on both a rainy day and a
+sunny day. Their scores were recorded. Therefore, the first column is
+the participant number, the second column is the weather (either sunny
+or rainy), and the third column is their scores.</p>
+</div>
 </div>
 <div id="my-happy-universe-with-tidyverse" class="section level2">
 <h2>my happy universe with tidyverse</h2>
+<p>I really love tidyverse It is a game changer. It contains some of my
+most-used functions, like <code>dplyr</code> and <code>ggplot2</code>.
+But first we need to know what it is. <strong>again, if you have not
+used <code>tidyverse</code> before, you also need to download the
+package first. </strong></p>
+<pre class="r"><code>#install.packages(&quot;tidyverse&quot;)
+#install.packages(&quot;dplyr&quot;)</code></pre>
+<p>Great. Let’s goooo.</p>
+<p>Here, an important function is called <em>pipe</em>. It’s one of the
+greatest analogy in this century. Although how the pipe looks
+“<code>%&gt;%</code>” does not look like a real pipe. We will meet this
+incredible feature in a few minutes.</p>
 <pre class="r"><code>library(dplyr)</code></pre>
 <pre><code>## 
 ## Attaching package: &#39;dplyr&#39;</code></pre>
@@ -1635,6 +1658,10 @@ rows of your data, just to make sure everything went well.</p>
 <pre><code>## The following objects are masked from &#39;package:base&#39;:
 ## 
 ##     intersect, setdiff, setequal, union</code></pre>
+<p>For example, we want to use some data to draw a bar chart.</p>
+<pre class="r"><code>library(readxl)
+wether_math &lt;- read_excel(&quot;~/Documents/MMR/example files/wether_math.xlsx&quot;) 
+View(wether_math)</code></pre>
 </div>
 <div id="t-testswith-graph" class="section level2">
 <h2>t-tests(with graph)</h2>
@@ -1646,8 +1673,9 @@ binded_2122 %&gt;%
   geom_bar(stat = &quot;summary&quot;, position = position_dodge(.9), width = .35, fill = &quot;#BDD5EA&quot;) +
   geom_errorbar(stat = &quot;summary&quot;, position = position_dodge(.9), width = .12) +
   #facet_wrap(emotion ~ ., scales = &quot;free&quot;)+
-  theme_classic()</code></pre>
-<pre><code>
+  theme_classic()
+
+
 ado_chi_acc_rt %&gt;%
   group_by(Subject,age, Consistency, Operation) %&gt;%
   summarise(acc = mean(Response_ACC)) -&gt; semi
