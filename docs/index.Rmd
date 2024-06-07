@@ -5,10 +5,11 @@ date: "updated: 2024-06-06"
 output:
   html_document: 
     fig_caption: yes
-    theme: cerulean
+    theme: simplex
     toc: yes
     toc_depth: 3
     toc_float: yes
+
 ---
 
 ```{r setup, include=FALSE}
@@ -30,6 +31,7 @@ Feel free to leave comments or suggestions, I am still an infant in the fascinat
 Best, *cocoyamo*
 
 Reykjavik, 2024
+
 
 ## first thing first: `install` and `library`
 
@@ -272,10 +274,12 @@ Note that we need to also put "house" in our column of selection. If you only pu
 
 In other words, if you only put ``select("name") %>%``, instead of ``select(c("name","house")) %>%``, R Studio will give you an error message saying that object 'house' not found. I know that because I just met this error message :D
 
+## mutate
+
 
 ## let's draw flags!
 
-```{r}
+```{r, fig.width = 3, fig.height = 2, fig.align = "center"}
 library(ggplot2)
 library(dplyr)
 
@@ -289,18 +293,32 @@ lith %>%
   theme_void()
 ```
 
-```{r}
+```{r, fig.width = 4, fig.height = 2, fig.align = "center"}
 latv <- data.frame(name=c("A","B","C") ,
                    value=c(4,4,4))
 
 latv %>%
   ggplot(aes(x = name, y = value)) +
-  geom_bar(stat = "identity", width = c(1.3, 0.9, 1.3), fill = c("#A4343A","#FFFFFF","#A4343A")) +
+  geom_bar(stat = "identity", width = c(1.2, 0.9, 1.2), fill = c("#A4343A","#FFFFFF","#A4343A")) +
   coord_flip()+
   theme_void()
 ```
+I am still a bit struggling with the width part. The flag looks okay but I don't think this is the correct way to do it.
 
-```{r}
+Now let's try some with vertical lines. 
+
+```{r, fig.width = 3, fig.height = 2, fig.align = "center"}
+ital <- data.frame(name=c("A","B","C") ,
+                   value=4)
+
+ital %>%
+  ggplot(aes(x = name, y = value)) +
+  geom_bar(stat = "identity", width = 1, fill = c("#008C45","#F4F9FF","#CD212A")) +
+  theme_void()
+```
+
+Still struggling with the Icelandic flag. Stay tuned.
+```{r, fig.width = 4, fig.height = 2, fig.align = "center"}
 specie <- c("A","B" ,"C","D","E","F","G","H","I")
 condition <- c("a","b","c","d","d","c","d","c","d",
                "e","a","b","c","d","c","d" ,"b","c",
