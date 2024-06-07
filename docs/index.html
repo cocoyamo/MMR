@@ -1627,7 +1627,30 @@ rows of your data, just to make sure everything went well.</p>
 <h3>a small explanation of this data</h3>
 <p>Let us take a peek at this data, so you will have a better grasp in
 our future examples.</p>
-<pre class="r"><code>View(wether_math)</code></pre>
+<pre class="r"><code>wether_math</code></pre>
+<pre><code>## # A tibble: 20 × 3
+##       id day   score
+##    &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt;
+##  1     1 sunny     9
+##  2     2 sunny     8
+##  3     3 sunny     7
+##  4     4 sunny     8
+##  5     5 sunny     8
+##  6     6 sunny     8
+##  7     7 sunny     6
+##  8     8 sunny     5
+##  9     9 sunny     3
+## 10    10 sunny     4
+## 11     1 rainy     1
+## 12     2 rainy     3
+## 13     3 rainy     5
+## 14     4 rainy     7
+## 15     5 rainy     6
+## 16     6 rainy     5
+## 17     7 rainy     6
+## 18     8 rainy     7
+## 19     9 rainy     5
+## 20    10 rainy     3</code></pre>
 <p>This is a made-up data. There are 10 imaginary people participate in
 this imaginary research. They do math test on both a rainy day and a
 sunny day. Their scores were recorded. Therefore, the first column is
@@ -1741,8 +1764,80 @@ View(ado_dt)</code></pre>
 <pre><code>cbind(ado_dt, ado_roi_neat) -&gt; ado_bind
 View(ado_bind)</code></pre>
 </div>
-<div id="select-column-row" class="section level2">
-<h2>select column &amp; row</h2>
+<div id="select-column-filter-row" class="section level2">
+<h2><strong>select</strong> column &amp; <strong>filter</strong>
+row</h2>
+<p>Functions I use really often are <code>select</code> and
+<code>filter</code>. The difference between them is that
+<code>select</code> is for columns, and <code>filter</code> is for
+rows.</p>
+<p>Let us assume that there is a dataset with 6 columns, but we only
+need to use 2 columns.</p>
+<pre class="r"><code>family &lt;- data.frame(name = c(&quot;Amy&quot;,&quot;Bob&quot;,&quot;Connie&quot;,&quot;Dave&quot;) ,
+                     age = c(4,14,6,8),
+                     hobby = c(&quot;Coding&quot;,&quot;Coding&quot;,&quot;Boldering&quot;,&quot;Filming&quot;),
+                     house = c(&quot;Ravenclaw&quot;,&quot;Slytherin&quot;,&quot;Slytherin&quot;,&quot;Gryffindor&quot;),
+                     team = c(&quot;cat&quot;,&quot;dog&quot;,&quot;cat&quot;,&quot;dog&quot;),
+                     food = c(&quot;chocolate&quot;,&quot;candy&quot;,&quot;fries&quot;,&quot;fries&quot;))</code></pre>
+<p>This is another made-up dataset recording different children in a big
+family. It recorded their names, ages, hobbies, Hogwarts houses, team
+cat or team dog, and favorite foods.</p>
+<pre class="r"><code>family</code></pre>
+<pre><code>##     name age     hobby      house team      food
+## 1    Amy   4    Coding  Ravenclaw  cat chocolate
+## 2    Bob  14    Coding  Slytherin  dog     candy
+## 3 Connie   6 Boldering  Slytherin  cat     fries
+## 4   Dave   8   Filming Gryffindor  dog     fries</code></pre>
+<div id="select" class="section level3">
+<h3>select</h3>
+<p>Now we only need to know their names and their age. Therefore, we can
+use <code>select</code> function to choose these two columns.</p>
+<pre class="r"><code>family %&gt;%
+  select(c(&quot;name&quot;,&quot;age&quot;)) </code></pre>
+<pre><code>##     name age
+## 1    Amy   4
+## 2    Bob  14
+## 3 Connie   6
+## 4   Dave   8</code></pre>
+</div>
+<div id="filter" class="section level3">
+<h3>filter</h3>
+<p>Now, for some reason, we want to know who is in house Slytherin.
+Thus, we can use <code>filter</code> to pull these people out.</p>
+<pre class="r"><code>family %&gt;%
+  filter(house == &quot;Slytherin&quot;) </code></pre>
+<pre><code>##     name age     hobby     house team  food
+## 1    Bob  14    Coding Slytherin  dog candy
+## 2 Connie   6 Boldering Slytherin  cat fries</code></pre>
+<p>That’s it!</p>
+<p>If we want to see who is in house Slytherin and Ravenclaw, then we
+can use <code>%in%</code> to let our R Studio know that we want people
+with <strong>either</strong> of the houses.</p>
+<pre class="r"><code>family %&gt;%
+  filter(house %in% c(&quot;Slytherin&quot;, &quot;Ravenclaw&quot;))</code></pre>
+<pre><code>##     name age     hobby     house team      food
+## 1    Amy   4    Coding Ravenclaw  cat chocolate
+## 2    Bob  14    Coding Slytherin  dog     candy
+## 3 Connie   6 Boldering Slytherin  cat     fries</code></pre>
+<p><strong>bonus</strong></p>
+<p>If we want to <strong>only</strong> see the names of people who are
+in the Slytherin house. We can combine our <code>select</code> and
+<code>filter</code> function together, using our useful
+<code>pipe</code>.</p>
+<pre class="r"><code>family %&gt;%
+  select(c(&quot;name&quot;,&quot;house&quot;)) %&gt;%
+  filter(house == &quot;Slytherin&quot;)</code></pre>
+<pre><code>##     name     house
+## 1    Bob Slytherin
+## 2 Connie Slytherin</code></pre>
+<p>Note that we need to also put “house” in our column of selection. If
+you only put “name” in it, then the R Studio would not be able to find
+the house Slytherin on the next step.</p>
+<p>In other words, if you only put <code>select(&quot;name&quot;) %&gt;%</code>,
+instead of <code>select(c(&quot;name&quot;,&quot;house&quot;)) %&gt;%</code>, R Studio will
+give you an error message saying that object ‘house’ not found. I know
+that because I just met this error message :D</p>
+</div>
 </div>
 <div id="lets-draw-flags" class="section level2">
 <h2>let’s draw flags!</h2>

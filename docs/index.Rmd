@@ -100,7 +100,7 @@ head(wether_math)
 Let us take a peek at this data, so you will have a better grasp in our future examples. 
 
 ```{r}
-View(wether_math)
+wether_math
 ```
 
 This is a made-up data. There are 10 imaginary people participate in this imaginary research. They do math test on both a rainy day and a sunny day. Their scores were recorded. 
@@ -215,7 +215,63 @@ library(ggplot2)
     cbind(ado_dt, ado_roi_neat) -> ado_bind
     View(ado_bind)
 
-## select column & row
+## select columns & filter rows
+Functions I use really often are ``select`` and ``filter``. The difference between them is that ``select`` is for columns, and ``filter`` is for rows. 
+
+Let us assume that there is a dataset with 6 columns, but we only need to use 2 columns.
+
+```{r}
+family <- data.frame(name = c("Amy","Bob","Connie","Dave") ,
+                     age = c(4,14,6,8),
+                     hobby = c("Coding","Coding","Boldering","Filming"),
+                     house = c("Ravenclaw","Slytherin","Slytherin","Gryffindor"),
+                     team = c("cat","dog","cat","dog"),
+                     food = c("chocolate","candy","fries","fries"))
+```
+
+This is another made-up dataset recording different children in a big family. It recorded their names, ages, hobbies, Hogwarts houses, team cat or team dog, and favorite foods. 
+```{r}
+family
+```
+
+### select
+Now we only need to know their names and their age. Therefore, we can use ``select`` function to choose these two columns.
+
+```{r}
+family %>%
+  select(c("name","age")) 
+```
+
+### filter
+Now, for some reason, we want to know who is in house Slytherin. Thus, we can use ``filter`` to pull these people out.
+
+```{r}
+family %>%
+  filter(house == "Slytherin") 
+```
+
+That's it! 
+
+If we want to see who is in house Slytherin and Ravenclaw, then we can use ``%in%`` to let our R Studio know that we want people with **either** of the houses.
+
+```{r}
+family %>%
+  filter(house %in% c("Slytherin", "Ravenclaw"))
+```
+
+**bonus**
+
+If we want to **only** see the names of people who are in the Slytherin house. We can combine our ``select`` and ``filter`` function together, using our useful ``pipe``.
+
+```{r}
+family %>%
+  select(c("name","house")) %>%
+  filter(house == "Slytherin")
+```
+Note that we need to also put "house" in our column of selection. If you only put "name" in it, then the R Studio would not be able to find the house Slytherin on the next step. 
+
+In other words, if you only put ``select("name") %>%``, instead of ``select(c("name","house")) %>%``, R Studio will give you an error message saying that object 'house' not found. I know that because I just met this error message :D
+
 
 ## let's draw flags!
 
