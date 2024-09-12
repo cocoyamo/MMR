@@ -1544,17 +1544,17 @@ using R Studio.</p>
 <p>Then people will ask you to “call the package out” using a function
 called <code>library</code>.</p>
 <p>These two things inside R Studio confused me a lot in the beginning,
-(and I was mocked by a teaching assistant who was very inconsiderate of
-people who have never learned coding before), hopefully here you can
-find some answer. And I will not mock you. I swear. I know the
-struggles.</p>
+(and I was mocked by a TA who was very inconsiderate of people who have
+never learned coding before), hopefully here you can find some answer.
+And I will not mock you. I swear. I know the struggles.</p>
 <p>I now think of this as making a sandwich. Pick whatever sandwich you
 like. I will do a peanut butter and chocolate sandwich here.</p>
 <p>So, imagine you are going to make peanut butter and chocolate
 sandwich. You need ingredients. So you went to a nearby grocery store to
 purchase <em>chocolate spread</em>, <em>peanut butter</em>, and
 <em>toast</em>. (Feel free to switch to any other food you like, also
-please do not follow my recipe if you are allergic to peanut!)</p>
+please do not follow my recipe if you are allergic to peanut or
+chocolate!)</p>
 <p>This step (getting ingredients from a store) is called
 <code>install</code>.</p>
 <p>Then, you go back to your kitchen, pull these ingredients out from
@@ -1659,32 +1659,137 @@ or rainy), and the third column is their scores.</p>
 </div>
 <div id="my-happy-universe-with-tidyverse" class="section level2">
 <h2>my happy universe with tidyverse</h2>
-<p>I really love tidyverse It is a game changer. It contains some of my
-most-used functions, like <code>dplyr</code> and <code>ggplot2</code>.
-But first we need to know what it is. <strong>again, if you have not
-used <code>tidyverse</code> before, you also need to download the
-package first. </strong></p>
+<p>I really love tidyverse. It is a game changer. Three packages I use
+most often in tidyverse are:</p>
+<ol style="list-style-type: decimal">
+<li><code>ggplot2</code></li>
+<li><code>dplyr</code></li>
+<li><code>tidyr</code></li>
+</ol>
+<p>But first we need to know what it is.</p>
+<p><code>Tidyverse</code> contains several packages, making data
+transformation and visualization (and my life) easier. Under the
+umbrella of <code>tidyverse</code>, we will be able to wrangle with data
+like a pro.</p>
+<p>We will delve deeper into the land of <code>ggplot2</code> in the
+future chapter. Here, we focus on <code>dplyr</code> and
+<code>tidyr</code> first.</p>
+<p><strong>If you have not use <code>tidyverse</code> before, you need
+to download the package first.</strong></p>
 <pre class="r"><code>#install.packages(&quot;tidyverse&quot;)
-#install.packages(&quot;dplyr&quot;)</code></pre>
-<p>Great. Let’s goooo.</p>
-<p>Here, an important function is called <em>pipe</em>. It’s one of the
-greatest analogy in this century. Although how the pipe looks
-“<code>%&gt;%</code>” does not look like a real pipe. We will meet this
-incredible feature in a few minutes.</p>
-<pre class="r"><code>library(dplyr)</code></pre>
-<pre><code>## Warning: package &#39;dplyr&#39; was built under R version 4.2.3</code></pre>
-<pre><code>## 
-## Attaching package: &#39;dplyr&#39;</code></pre>
-<pre><code>## The following objects are masked from &#39;package:stats&#39;:
-## 
-##     filter, lag</code></pre>
-<pre><code>## The following objects are masked from &#39;package:base&#39;:
-## 
-##     intersect, setdiff, setequal, union</code></pre>
-<p>For example, we want to use some data to draw a bar chart.</p>
-<pre class="r"><code>library(readxl)
-wether_math &lt;- read_excel(&quot;~/Documents/MMR/example files/wether_math.xlsx&quot;) 
-View(wether_math)</code></pre>
+#install.packages(&quot;dplyr&quot;)
+#install.packages(&quot;tidyr&quot;)</code></pre>
+<p>Next, let us not forget to also <strong>call out</strong> our
+packages, which we use <code>library()</code> function for the job.</p>
+<pre class="r"><code>library(&quot;tidyverse&quot;)</code></pre>
+<pre><code>## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+## ✔ dplyr     1.1.4     ✔ readr     2.1.5
+## ✔ forcats   1.0.0     ✔ stringr   1.5.1
+## ✔ ggplot2   3.5.1     ✔ tibble    3.2.1
+## ✔ lubridate 1.9.3     ✔ tidyr     1.3.1
+## ✔ purrr     1.0.2     
+## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## ✖ dplyr::filter() masks stats::filter()
+## ✖ dplyr::lag()    masks stats::lag()
+## ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+<pre class="r"><code>library(&quot;dplyr&quot;)
+library(&quot;tidyr&quot;)</code></pre>
+<p>You are all set.</p>
+<p>Before we jump into anything, let us meet a funny-looking friend.
+<em>The pipe.</em></p>
+<p>It looks like this:</p>
+<pre class="r"><code>#%&gt;%</code></pre>
+<p>In my humble opinion, this is one of the greatest analogy in this
+century. Although the way it looks (<code>%&gt;%</code>) does not strike
+me as a real pipe at all.</p>
+<p>Let us use an example to see how it works.</p>
+<div id="babynames" class="section level3">
+<h3>babynames</h3>
+<p><code>babynames</code> package is a built-in R package. It contains
+baby names in the US from year 1880 to year 2017.</p>
+<pre class="r"><code>#install.packages(&quot;babynames&quot;)
+library(babynames)</code></pre>
+<p>We can take a look at the data.</p>
+<pre class="r"><code>View(babynames)</code></pre>
+<p>RStudio should have created a separate page for the data. We can see
+that there are 5 columns: <code>year</code>, <code>sex</code>,
+<code>name</code>, <code>n</code>, and <code>prop</code>.</p>
+<p>Wait, what are <code>prop</code>?</p>
+<p>When we encounter questions like this, we can type
+<code>?+function/dataset</code> on the Console area. In this case, we
+typed <code>?babynames</code>.</p>
+<p>Once we hit enter, we can see the Help screen on the right side
+popped up some information. After reading the explanation of this
+dataset, we learned that <code>prop</code> means <code>n</code> divided
+by all babies of that sex with that name born in that year.</p>
+<p>Now, let’s say we want to know names of babies born in year 2000.</p>
+<pre class="r"><code>babynames %&gt;%
+    filter(year == 2000)</code></pre>
+<pre><code>## # A tibble: 29,769 × 5
+##     year sex   name          n    prop
+##    &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;     &lt;int&gt;   &lt;dbl&gt;
+##  1  2000 F     Emily     25953 0.0130 
+##  2  2000 F     Hannah    23080 0.0116 
+##  3  2000 F     Madison   19967 0.0100 
+##  4  2000 F     Ashley    17997 0.00902
+##  5  2000 F     Sarah     17697 0.00887
+##  6  2000 F     Alexis    17629 0.00884
+##  7  2000 F     Samantha  17266 0.00866
+##  8  2000 F     Jessica   15709 0.00787
+##  9  2000 F     Elizabeth 15094 0.00757
+## 10  2000 F     Taylor    15078 0.00756
+## # ℹ 29,759 more rows</code></pre>
+<p>Here we see all the baby names in 2000!</p>
+<p>In the code, I used <code>%&gt;%</code> to direct my dataset
+<code>babynames</code> into the next function <code>filter()</code>.</p>
+<p>Inside the <code>filter()</code> function, I told the program I want
+babies who were born in year 2000. In other words, I filtered out the
+babies which in the ‘year’ column, says ‘2000’.</p>
+<p>A good thing about the <code>%&gt;%</code> is that you can build one
+after another. Just like you can direct the water from east to west,
+then from west to north.</p>
+<p>Let’s try it out.</p>
+<pre class="r"><code>babynames %&gt;%
+    filter(year == 2000) %&gt;%
+    filter(sex == &quot;F&quot;)</code></pre>
+<pre><code>## # A tibble: 17,653 × 5
+##     year sex   name          n    prop
+##    &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;     &lt;int&gt;   &lt;dbl&gt;
+##  1  2000 F     Emily     25953 0.0130 
+##  2  2000 F     Hannah    23080 0.0116 
+##  3  2000 F     Madison   19967 0.0100 
+##  4  2000 F     Ashley    17997 0.00902
+##  5  2000 F     Sarah     17697 0.00887
+##  6  2000 F     Alexis    17629 0.00884
+##  7  2000 F     Samantha  17266 0.00866
+##  8  2000 F     Jessica   15709 0.00787
+##  9  2000 F     Elizabeth 15094 0.00757
+## 10  2000 F     Taylor    15078 0.00756
+## # ℹ 17,643 more rows</code></pre>
+<p>Here we put F with a quotation mark because it is a character,
+instead of a number. We need to specify that so that RStudio can
+understands us.</p>
+<p>Now the data is showing female babies who were both born in year
+2000.</p>
+<p>We can also acquire this output in another way.</p>
+<pre class="r"><code>babynames %&gt;%
+ filter(year == 2000 &amp; sex == &quot;F&quot;)</code></pre>
+<pre><code>## # A tibble: 17,653 × 5
+##     year sex   name          n    prop
+##    &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;     &lt;int&gt;   &lt;dbl&gt;
+##  1  2000 F     Emily     25953 0.0130 
+##  2  2000 F     Hannah    23080 0.0116 
+##  3  2000 F     Madison   19967 0.0100 
+##  4  2000 F     Ashley    17997 0.00902
+##  5  2000 F     Sarah     17697 0.00887
+##  6  2000 F     Alexis    17629 0.00884
+##  7  2000 F     Samantha  17266 0.00866
+##  8  2000 F     Jessica   15709 0.00787
+##  9  2000 F     Elizabeth 15094 0.00757
+## 10  2000 F     Taylor    15078 0.00756
+## # ℹ 17,643 more rows</code></pre>
+<p>Let us do more data transformation in the next chapter.</p>
+</div>
 </div>
 <div id="t-testswith-graph" class="section level2">
 <h2>t-tests(with graph)</h2>
@@ -1843,9 +1948,8 @@ that because I just met this error message :D</p>
 </div>
 <div id="lets-draw-flags" class="section level2">
 <h2>let’s draw flags!</h2>
-<pre class="r"><code>library(ggplot2)</code></pre>
-<pre><code>## Warning: package &#39;ggplot2&#39; was built under R version 4.2.3</code></pre>
-<pre class="r"><code>library(dplyr)
+<pre class="r"><code>library(ggplot2)
+library(dplyr)
 
 lith &lt;- data.frame(name=c(&quot;A&quot;,&quot;B&quot;,&quot;C&quot;) ,
                    value=c(4,4,4))

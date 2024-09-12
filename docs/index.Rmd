@@ -41,11 +41,11 @@ People are constantly saying "oh you need to **install** this package", and ther
 
 Then people will ask you to "call the package out" using a function called `library`.
 
-These two things inside R Studio confused me a lot in the beginning, (and I was mocked by a teaching assistant who was very inconsiderate of people who have never learned coding before), hopefully here you can find some answer. And I will not mock you. I swear. I know the struggles.
+These two things inside R Studio confused me a lot in the beginning, (and I was mocked by a TA who was very inconsiderate of people who have never learned coding before), hopefully here you can find some answer. And I will not mock you. I swear. I know the struggles.
 
 I now think of this as making a sandwich. Pick whatever sandwich you like. I will do a peanut butter and chocolate sandwich here.
 
-So, imagine you are going to make peanut butter and chocolate sandwich. You need ingredients. So you went to a nearby grocery store to purchase *chocolate spread*, *peanut butter*, and *toast*. (Feel free to switch to any other food you like, also please do not follow my recipe if you are allergic to peanut!)
+So, imagine you are going to make peanut butter and chocolate sandwich. You need ingredients. So you went to a nearby grocery store to purchase *chocolate spread*, *peanut butter*, and *toast*. (Feel free to switch to any other food you like, also please do not follow my recipe if you are allergic to peanut or chocolate!)
 
 This step (getting ingredients from a store) is called `install`.
 
@@ -110,32 +110,106 @@ Therefore, the first column is the participant number, the second column is the 
 
 ## my happy universe with tidyverse
 
-I really love tidyverse It is a game changer. It contains some of my most-used functions, like ``dplyr`` and ``ggplot2``.
-But first we need to know what it is. 
-**again, if you have not used ``tidyverse`` before, you also need to download the package first. **
+I really love tidyverse. It is a game changer. Three packages I use most often in tidyverse are:
 
-```{r }
+1. `ggplot2`
+2. `dplyr`
+3. `tidyr`
+
+But first we need to know what it is.
+
+`Tidyverse` contains several packages, making data transformation and visualization (and my life) easier. Under the umbrella of `tidyverse`, we will be able to wrangle with data like a pro. 
+
+We will delve deeper into the land of `ggplot2` in the future chapter. Here, we focus on `dplyr` and `tidyr` first. 
+
+**If you have not use `tidyverse` before, you need to download the package first.**
+
+```{r}
 #install.packages("tidyverse")
 #install.packages("dplyr")
+#install.packages("tidyr")
 ```
 
-Great. Let's goooo.
-
-Here, an important function is called *pipe*. It's one of the greatest analogy in this century. Although how the pipe looks "``%>%``" does not look like a real pipe. We will meet this incredible feature in a few minutes.
+Next, let us not forget to also **call out** our packages, which we use `library()` function for the job.
 
 ```{r}
-library(dplyr)
+library("tidyverse")
+library("dplyr")
+library("tidyr")
 ```
 
-For example, we want to use some data to draw a bar chart. 
+You are all set. 
 
+Before we jump into anything, let us meet a funny-looking friend. *The pipe.*
+
+It looks like this:
 
 ```{r}
-library(readxl)
-wether_math <- read_excel("~/Documents/MMR/example files/wether_math.xlsx") 
-View(wether_math)
+#%>%
 ```
 
+In my humble opinion, this is one of the greatest analogy in this century. Although the way it looks (`%>%`) does not strike me as a real pipe at all.
+
+Let us use an example to see how it works.
+
+### babynames
+
+`babynames` package is a built-in R package. It contains baby names in the US from year 1880 to year 2017. 
+
+```{r}
+#install.packages("babynames")
+library(babynames)
+```
+
+We can take a look at the data. 
+
+```{r}
+View(babynames)
+```
+
+RStudio should have created a separate page for the data. We can see that there are 5 columns: `year`, `sex`, `name`, `n`, and `prop`.
+
+Wait, what are `prop`? 
+
+When we encounter questions like this, we can type `?+function/dataset` on the Console area. In this case, we typed `?babynames`. 
+
+Once we hit enter, we can see the Help screen on the right side popped up some information. After reading the explanation of this dataset, we learned that `prop` means `n` divided by all babies of that sex with that name born in that year. 
+
+Now, let’s say we want to know names of babies born in year 2000. 
+
+```{r}
+babynames %>%
+	filter(year == 2000)
+```
+
+Here we see all the baby names in 2000!
+
+In the code, I used `%>%` to direct my dataset `babynames` into the next function `filter()`.
+
+Inside the `filter()` function, I told the program I want babies who were born in year 2000. In other words, I filtered out the babies which in the ‘year’ column, says ‘2000’.
+
+A good thing about the `%>%` is that you can build one after another. Just like you can direct the water from east to west, then from west to north. 
+
+Let’s try it out. 
+
+```{r}
+babynames %>%
+	filter(year == 2000) %>%
+	filter(sex == "F")
+```
+
+Here we put F with a quotation mark because it is a character, instead of a number. We need to specify that so that RStudio can understands us. 
+
+Now the data is showing female babies who were both born in year 2000.
+
+We can also acquire this output in another way. 
+
+```{r}
+babynames %>%
+ filter(year == 2000 & sex == "F")
+```
+
+Let us do more data transformation in the next chapter.
 
 
 ## t-tests(with graph)
