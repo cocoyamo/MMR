@@ -9,14 +9,13 @@ output:
     toc: yes
     toc_depth: 3
     toc_float: yes
-
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## introduction
+## Introduction
 
 **I have a toxic relationship with R Studio**
 
@@ -32,8 +31,9 @@ Best, *cocoyamo*
 
 Reykjavik, 2024
 
+## RStudio Environment and Installation
 
-## first thing first: `install` and `library`
+*first thing first: `install` and `library`*
 
 I wish someone use this analogy when I was learning R Studio for the very first time.
 
@@ -57,17 +57,23 @@ Therefore, whenever you need to use some package you have not used before, you n
 
 Okay, I hope you are still with me, and not already in the kitchen looking for your chocolate spread.
 
-## import file/dataset
-
+## Data Import and Reading
 Let's import our data!
 
+### Import Your Data
+
 **note: If this is your first time import data, and if your data is from an Excel file, then remember to type `install.packages("readxl")` on your coding space first.**
+
+```{r}
+#install.packages("readxl")
+#library(readxl)
+```
 
 There are of course tons of ways to import your data, but the following is what I use most often.
 
 I will click `Import Dataset` on the top right corner in the `Environment` box. Then choose `import`, chose `From Excel` (or `From Text` if I have a .csv file), then use `Browse` on the top right corner to pick up the file I want to import.
 
-You can either double-click or click it once and then click the "open" at the bottom right.
+You can either double-click or click it once and then click the `open` at the bottom right.
 
 The middle part is the `Data Preview`, you can see your data here, don't import the wrong file!(I've done that multiple times, especially when I am lazy at giving files proper names :P)
 
@@ -77,7 +83,7 @@ The code can look something like this. (But not identical! Because (hopefully) w
 
 ```{r}
 library(readxl)
-wether_math <- read_excel("~/Documents/MMR/example files/wether_math.xlsx") 
+wether_math <- read_excel("~/Documents/MMR/example files/wether_math.xlsx")
 View(wether_math)
 ```
 
@@ -87,40 +93,94 @@ Now you have seen the `Code Preview` section, at the end of it there is a tiny i
 
 Now you have copied the code necessary to import your file, press `Import` at the bottom right.
 
-Go back to the coding section. Paste (`Ctrl + v`/`Command + v`) it on the coding section (the top left section of the interface).
+Go back to the coding section. Paste it (`Ctrl/Command + v`) on the coding section (the top left section of the interface).
 
 (Let's hope R Studio never change their interface or else I will have to rewrite this part.)
 
-Also, sometimes you can use `head()` to see the first few rows of your data, just to make sure everything went well.
+Also, sometimes you can use `head()` to see the first few rows of your data, just to make sure everything went well. 
 
 ```{r}
 head(wether_math)
 ```
 
-### a small explanation of this data
-
-Let us take a peek at this data, so you will have a better grasp in our future examples. 
+Or you could just type in the data names. 
 
 ```{r}
 wether_math
 ```
 
-This is a made-up data. There are 10 imaginary people participate in this imaginary research. They do math test on both a rainy day and a sunny day. Their scores were recorded. 
-Therefore, the first column is the participant number, the second column is the weather (either sunny or rainy), and the third column is their scores. 
+#### Wether Math Data Explanation
 
-## my happy universe with tidyverse
+Let us take a peek at this data, so you will have a better grasp in our future examples.
+
+```{r}
+wether_math
+```
+
+This is a made-up data. There are 10 imaginary people participate in this imaginary research. They do math test on both a rainy day and a sunny day. Their scores were recorded. Therefore, the first column is the participant number, the second column is the weather (either sunny or rainy), and the third column is their scores.
+
+### Dataset packages
+#### babynames
+There are different data packages inside R. We can access those data by simply install them. For example, we can install a package called `babynames` . 
+
+This package contains baby names in the US from year 1880 to year 2017. 
+
+Let us take a look.
+
+```{r}
+#install.packages("babynames")
+#library(babynames)
+#View(babynames)
+```
+
+RStudio creates a separate page for the data when we use `View()` . We can see that there are 5 columns: `year`, `sex`, `name`, `n`, and `prop`.
+
+Wait, what is the `prop`? 
+
+When we encounter questions like this, we can type `?+function/dataset` on the Console area. In this case, we typed `?babynames`. 
+
+Once we hit enter, we can see the Help screen on the right side popped up some information. After reading the explanation of this dataset, we learned that `prop` means `n` divided by all babies of that sex with that name born in that year. 
+
+#### starwars
+
+There are also built-in data inside `dplyr` packages. For example, there is a dataset called `starwars`. 
+
+We can import them with a few lines of codes.
+
+```{r}
+#install.packages("dplyr")
+#library(dplyr)
+```
+
+We just called out the `dplyr` package, where `starwars` dataset was stored in. 
+
+```{r}
+#starwars
+```
+
+### Ways to Check Data
+
+These functions are commonly used for checking data.
+
+`View()` will open a new page for reading datasets. 
+
+`glimpse()` `head()` `tail()` `dim()` `slice()`
+
+Also, you can check the qualities of datasets. For example, `ncol()` & `nrow()` . Both of them can be found at once when using `dim()`.
+
+## Overview of Tidyverse and Core Functions
 
 I really love tidyverse. It is a game changer. Three packages I use most often in tidyverse are:
 
-1. `ggplot2`
-2. `dplyr`
-3. `tidyr`
+1.  `ggplot2`
+2.  `dplyr`
+3.  `tidyr`
 
 But first we need to know what it is.
 
-`Tidyverse` contains several packages, making data transformation and visualization (and my life) easier. Under the umbrella of `tidyverse`, we will be able to wrangle with data like a pro. 
+`Tidyverse` contains several packages, making data transformation and visualization (and my life) easier. Under the umbrella of `tidyverse`, we will be able to wrangle with data like a pro.
 
-We will delve deeper into the land of `ggplot2` in the future chapter. Here, we focus on `dplyr` and `tidyr` first. 
+We will delve deeper into the land of `ggplot2` in the future chapter. Here, we focus on `dplyr` and `tidyr` first.
 
 **If you have not use `tidyverse` before, you need to download the package first.**
 
@@ -138,7 +198,7 @@ library("dplyr")
 library("tidyr")
 ```
 
-You are all set. 
+You are all set.
 
 Before we jump into anything, let us meet a funny-looking friend. *The pipe.*
 
@@ -154,14 +214,14 @@ Let us use an example to see how it works.
 
 ### babynames
 
-`babynames` package is a built-in R package. It contains baby names in the US from year 1880 to year 2017. 
+`babynames` package is a built-in R package. It contains baby names in the US from year 1880 to year 2017.
 
 ```{r}
 #install.packages("babynames")
 library(babynames)
 ```
 
-We can take a look at the data. 
+We can take a look at the data.
 
 ```{r}
 View(babynames)
@@ -169,13 +229,13 @@ View(babynames)
 
 RStudio should have created a separate page for the data. We can see that there are 5 columns: `year`, `sex`, `name`, `n`, and `prop`.
 
-Wait, what are `prop`? 
+Wait, what are `prop`?
 
-When we encounter questions like this, we can type `?+function/dataset` on the Console area. In this case, we typed `?babynames`. 
+When we encounter questions like this, we can type `?+function/dataset` on the Console area. In this case, we typed `?babynames`.
 
-Once we hit enter, we can see the Help screen on the right side popped up some information. After reading the explanation of this dataset, we learned that `prop` means `n` divided by all babies of that sex with that name born in that year. 
+Once we hit enter, we can see the Help screen on the right side popped up some information. After reading the explanation of this dataset, we learned that `prop` means `n` divided by all babies of that sex with that name born in that year.
 
-Now, let’s say we want to know names of babies born in year 2000. 
+Now, let's say we want to know names of babies born in year 2000.
 
 ```{r}
 babynames %>%
@@ -186,11 +246,11 @@ Here we see all the baby names in 2000!
 
 In the code, I used `%>%` to direct my dataset `babynames` into the next function `filter()`.
 
-Inside the `filter()` function, I told the program I want babies who were born in year 2000. In other words, I filtered out the babies which in the ‘year’ column, says ‘2000’.
+Inside the `filter()` function, I told the program I want babies who were born in year 2000. In other words, I filtered out the babies which in the 'year' column, says '2000'.
 
-A good thing about the `%>%` is that you can build one after another. Just like you can direct the water from east to west, then from west to north. 
+A good thing about the `%>%` is that you can build one after another. Just like you can direct the water from east to west, then from west to north.
 
-Let’s try it out. 
+Let's try it out.
 
 ```{r}
 babynames %>%
@@ -198,11 +258,11 @@ babynames %>%
 	filter(sex == "F")
 ```
 
-Here we put F with a quotation mark because it is a character, instead of a number. We need to specify that so that RStudio can understands us. 
+Here we put F with a quotation mark because it is a character, instead of a number. We need to specify that so that RStudio can understands us.
 
 Now the data is showing female babies who were both born in year 2000.
 
-We can also acquire this output in another way. 
+We can also acquire this output in another way.
 
 ```{r}
 babynames %>%
@@ -212,6 +272,136 @@ babynames %>%
 Let us do more data transformation in the next chapter.
 
 
+
+## Data Cleaning and Transformation
+
+## Data Wrangling and Reshaping
+
+## Statistical Analysis
+
+## Data Visualization
+
+## Efficiency Tips for Data Processing
+
+## Data Export
+
+## Colclusion and Advanced Learning
+
+
+
+
+
+
+
+
+
+
+### 
+
+
+## my happy universe with tidyverse
+
+I really love tidyverse. It is a game changer. Three packages I use most often in tidyverse are:
+
+1.  `ggplot2`
+2.  `dplyr`
+3.  `tidyr`
+
+But first we need to know what it is.
+
+`Tidyverse` contains several packages, making data transformation and visualization (and my life) easier. Under the umbrella of `tidyverse`, we will be able to wrangle with data like a pro.
+
+We will delve deeper into the land of `ggplot2` in the future chapter. Here, we focus on `dplyr` and `tidyr` first.
+
+**If you have not use `tidyverse` before, you need to download the package first.**
+
+```{r}
+#install.packages("tidyverse")
+#install.packages("dplyr")
+#install.packages("tidyr")
+```
+
+Next, let us not forget to also **call out** our packages, which we use `library()` function for the job.
+
+```{r}
+library("tidyverse")
+library("dplyr")
+library("tidyr")
+```
+
+You are all set.
+
+Before we jump into anything, let us meet a funny-looking friend. *The pipe.*
+
+It looks like this:
+
+```{r}
+#%>%
+```
+
+In my humble opinion, this is one of the greatest analogy in this century. Although the way it looks (`%>%`) does not strike me as a real pipe at all.
+
+Let us use an example to see how it works.
+
+### babynames
+
+`babynames` package is a built-in R package. It contains baby names in the US from year 1880 to year 2017.
+
+```{r}
+#install.packages("babynames")
+library(babynames)
+```
+
+We can take a look at the data.
+
+```{r}
+View(babynames)
+```
+
+RStudio should have created a separate page for the data. We can see that there are 5 columns: `year`, `sex`, `name`, `n`, and `prop`.
+
+Wait, what are `prop`?
+
+When we encounter questions like this, we can type `?+function/dataset` on the Console area. In this case, we typed `?babynames`.
+
+Once we hit enter, we can see the Help screen on the right side popped up some information. After reading the explanation of this dataset, we learned that `prop` means `n` divided by all babies of that sex with that name born in that year.
+
+Now, let's say we want to know names of babies born in year 2000.
+
+```{r}
+babynames %>%
+	filter(year == 2000)
+```
+
+Here we see all the baby names in 2000!
+
+In the code, I used `%>%` to direct my dataset `babynames` into the next function `filter()`.
+
+Inside the `filter()` function, I told the program I want babies who were born in year 2000. In other words, I filtered out the babies which in the 'year' column, says '2000'.
+
+A good thing about the `%>%` is that you can build one after another. Just like you can direct the water from east to west, then from west to north.
+
+Let's try it out.
+
+```{r}
+babynames %>%
+	filter(year == 2000) %>%
+	filter(sex == "F")
+```
+
+Here we put F with a quotation mark because it is a character, instead of a number. We need to specify that so that RStudio can understands us.
+
+Now the data is showing female babies who were both born in year 2000.
+
+We can also acquire this output in another way.
+
+```{r}
+babynames %>%
+ filter(year == 2000 & sex == "F")
+```
+
+Let us do more data transformation in the next chapter.
+ 
 ## t-tests(with graph)
 
 library(ggplot2)
@@ -292,7 +482,8 @@ library(ggplot2)
     View(ado_bind)
 
 ## select columns & filter rows
-Functions I use really often are ``select`` and ``filter``. The difference between them is that ``select`` is for columns, and ``filter`` is for rows. 
+
+Functions I use really often are `select` and `filter`. The difference between them is that `select` is for columns, and `filter` is for rows.
 
 Let us assume that there is a dataset with 6 columns, but we only need to use 2 columns.
 
@@ -305,13 +496,15 @@ family <- data.frame(name = c("Amy","Bob","Connie","Dave") ,
                      food = c("chocolate","candy","fries","fries"))
 ```
 
-This is another made-up dataset recording different children in a big family. It recorded their names, ages, hobbies, Hogwarts houses, team cat or team dog, and favorite foods. 
+This is another made-up dataset recording different children in a big family. It recorded their names, ages, hobbies, Hogwarts houses, team cat or team dog, and favorite foods.
+
 ```{r}
 family
 ```
 
 ### select
-Now we only need to know their names and their age. Therefore, we can use ``select`` function to choose these two columns.
+
+Now we only need to know their names and their age. Therefore, we can use `select` function to choose these two columns.
 
 ```{r}
 family %>%
@@ -319,16 +512,17 @@ family %>%
 ```
 
 ### filter
-Now, for some reason, we want to know who is in house Slytherin. Thus, we can use ``filter`` to pull these people out.
+
+Now, for some reason, we want to know who is in house Slytherin. Thus, we can use `filter` to pull these people out.
 
 ```{r}
 family %>%
   filter(house == "Slytherin") 
 ```
 
-That's it! 
+That's it!
 
-If we want to see who is in house Slytherin and Ravenclaw, then we can use ``%in%`` to let our R Studio know that we want people with **either** of the houses.
+If we want to see who is in house Slytherin and Ravenclaw, then we can use `%in%` to let our R Studio know that we want people with **either** of the houses.
 
 ```{r}
 family %>%
@@ -337,19 +531,19 @@ family %>%
 
 **bonus**
 
-If we want to **only** see the names of people who are in the Slytherin house. We can combine our ``select`` and ``filter`` function together, using our useful ``pipe``.
+If we want to **only** see the names of people who are in the Slytherin house. We can combine our `select` and `filter` function together, using our useful `pipe`.
 
 ```{r}
 family %>%
   select(c("name","house")) %>%
   filter(house == "Slytherin")
 ```
-Note that we need to also put "house" in our column of selection. If you only put "name" in it, then the R Studio would not be able to find the house Slytherin on the next step. 
 
-In other words, if you only put ``select("name") %>%``, instead of ``select(c("name","house")) %>%``, R Studio will give you an error message saying that object 'house' not found. I know that because I just met this error message :D
+Note that we need to also put "house" in our column of selection. If you only put "name" in it, then the R Studio would not be able to find the house Slytherin on the next step.
+
+In other words, if you only put `select("name") %>%`, instead of `select(c("name","house")) %>%`, R Studio will give you an error message saying that object 'house' not found. I know that because I just met this error message :D
 
 ## mutate
-
 
 ## let's draw flags!
 
@@ -377,9 +571,10 @@ latv %>%
   coord_flip()+
   theme_void()
 ```
+
 I am still a bit struggling with the width part. The flag looks okay but I don't think this is the correct way to do it.
 
-Now let's try some with vertical lines. 
+Now let's try some with vertical lines.
 
 ```{r, fig.width = 3, fig.height = 2, fig.align = "center"}
 ital <- data.frame(name=c("A","B","C") ,
@@ -392,6 +587,7 @@ ital %>%
 ```
 
 Still struggling with the Icelandic flag. Stay tuned.
+
 ```{r, fig.width = 4, fig.height = 2, fig.align = "center"}
 specie <- c("A","B" ,"C","D","E","F","G","H","I")
 condition <- c("a","b","c","d","d","c","d","c","d",

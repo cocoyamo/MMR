@@ -1517,7 +1517,7 @@ and R</strong></h1>
 
 
 <div id="introduction" class="section level2">
-<h2>introduction</h2>
+<h2>Introduction</h2>
 <p><strong>I have a toxic relationship with R Studio</strong></p>
 <p>Hi, I am a student (not anymore very soon) who has been struggling
 with R Studio. Loving it and hating it (sometimes).</p>
@@ -1533,9 +1533,10 @@ the fascinating world of R, and am open to learn new things!</p>
 <p>Best, <em>cocoyamo</em></p>
 <p>Reykjavik, 2024</p>
 </div>
-<div id="first-thing-first-install-and-library" class="section level2">
-<h2>first thing first: <code>install</code> and
-<code>library</code></h2>
+<div id="rstudio-environment-and-installation" class="section level2">
+<h2>RStudio Environment and Installation</h2>
+<p><em>first thing first: <code>install</code> and
+<code>library</code></em></p>
 <p>I wish someone use this analogy when I was learning R Studio for the
 very first time.</p>
 <p>People are constantly saying “oh you need to <strong>install</strong>
@@ -1573,13 +1574,17 @@ bag.</p>
 <p>Okay, I hope you are still with me, and not already in the kitchen
 looking for your chocolate spread.</p>
 </div>
-<div id="import-filedataset" class="section level2">
-<h2>import file/dataset</h2>
+<div id="data-import-and-reading" class="section level2">
+<h2>Data Import and Reading</h2>
 <p>Let’s import our data!</p>
+<div id="import-your-data" class="section level3">
+<h3>Import Your Data</h3>
 <p><strong>note: If this is your first time import data, and if your
 data is from an Excel file, then remember to type
 <code>install.packages(&quot;readxl&quot;)</code> on your coding space
 first.</strong></p>
+<pre class="r"><code>#install.packages(&quot;readxl&quot;)
+#library(readxl)</code></pre>
 <p>There are of course tons of ways to import your data, but the
 following is what I use most often.</p>
 <p>I will click <code>Import Dataset</code> on the top right corner in
@@ -1588,7 +1593,7 @@ the <code>Environment</code> box. Then choose <code>import</code>, chose
 file), then use <code>Browse</code> on the top right corner to pick up
 the file I want to import.</p>
 <p>You can either double-click or click it once and then click the
-“open” at the bottom right.</p>
+<code>open</code> at the bottom right.</p>
 <p>The middle part is the <code>Data Preview</code>, you can see your
 data here, don’t import the wrong file!(I’ve done that multiple times,
 especially when I am lazy at giving files proper names :P)</p>
@@ -1597,7 +1602,7 @@ especially when I am lazy at giving files proper names :P)</p>
 <p>The code can look something like this. (But not identical! Because
 (hopefully) we are using different file names.)</p>
 <pre class="r"><code>library(readxl)
-wether_math &lt;- read_excel(&quot;~/Documents/MMR/example files/wether_math.xlsx&quot;) 
+wether_math &lt;- read_excel(&quot;~/Documents/MMR/example files/wether_math.xlsx&quot;)
 View(wether_math)</code></pre>
 <p>Now you have seen the <code>Code Preview</code> section, at the end
 of it there is a tiny icon looking like a clipboard, you do what? CLICK
@@ -1605,9 +1610,9 @@ IT!</p>
 <p><strong>Great Job!!</strong></p>
 <p>Now you have copied the code necessary to import your file, press
 <code>Import</code> at the bottom right.</p>
-<p>Go back to the coding section. Paste
-(<code>Ctrl + v</code>/<code>Command + v</code>) it on the coding
-section (the top left section of the interface).</p>
+<p>Go back to the coding section. Paste it
+(<code>Ctrl/Command + v</code>) on the coding section (the top left
+section of the interface).</p>
 <p>(Let’s hope R Studio never change their interface or else I will have
 to rewrite this part.)</p>
 <p>Also, sometimes you can use <code>head()</code> to see the first few
@@ -1622,8 +1627,33 @@ rows of your data, just to make sure everything went well.</p>
 ## 4     4 sunny     8
 ## 5     5 sunny     8
 ## 6     6 sunny     8</code></pre>
-<div id="a-small-explanation-of-this-data" class="section level3">
-<h3>a small explanation of this data</h3>
+<p>Or you could just type in the data names.</p>
+<pre class="r"><code>wether_math</code></pre>
+<pre><code>## # A tibble: 20 × 3
+##       id day   score
+##    &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt;
+##  1     1 sunny     9
+##  2     2 sunny     8
+##  3     3 sunny     7
+##  4     4 sunny     8
+##  5     5 sunny     8
+##  6     6 sunny     8
+##  7     7 sunny     6
+##  8     8 sunny     5
+##  9     9 sunny     3
+## 10    10 sunny     4
+## 11     1 rainy     1
+## 12     2 rainy     3
+## 13     3 rainy     5
+## 14     4 rainy     7
+## 15     5 rainy     6
+## 16     6 rainy     5
+## 17     7 rainy     6
+## 18     8 rainy     7
+## 19     9 rainy     5
+## 20    10 rainy     3</code></pre>
+<div id="wether-math-data-explanation" class="section level4">
+<h4>Wether Math Data Explanation</h4>
 <p>Let us take a peek at this data, so you will have a better grasp in
 our future examples.</p>
 <pre class="r"><code>wether_math</code></pre>
@@ -1657,8 +1687,57 @@ the participant number, the second column is the weather (either sunny
 or rainy), and the third column is their scores.</p>
 </div>
 </div>
-<div id="my-happy-universe-with-tidyverse" class="section level2">
-<h2>my happy universe with tidyverse</h2>
+<div id="dataset-packages" class="section level3">
+<h3>Dataset packages</h3>
+<div id="babynames" class="section level4">
+<h4>babynames</h4>
+<p>There are different data packages inside R. We can access those data
+by simply install them. For example, we can install a package called
+<code>babynames</code> .</p>
+<p>This package contains baby names in the US from year 1880 to year
+2017.</p>
+<p>Let us take a look.</p>
+<pre class="r"><code>#install.packages(&quot;babynames&quot;)
+#library(babynames)
+#View(babynames)</code></pre>
+<p>RStudio creates a separate page for the data when we use
+<code>View()</code> . We can see that there are 5 columns:
+<code>year</code>, <code>sex</code>, <code>name</code>, <code>n</code>,
+and <code>prop</code>.</p>
+<p>Wait, what is the <code>prop</code>?</p>
+<p>When we encounter questions like this, we can type
+<code>?+function/dataset</code> on the Console area. In this case, we
+typed <code>?babynames</code>.</p>
+<p>Once we hit enter, we can see the Help screen on the right side
+popped up some information. After reading the explanation of this
+dataset, we learned that <code>prop</code> means <code>n</code> divided
+by all babies of that sex with that name born in that year.</p>
+</div>
+<div id="starwars" class="section level4">
+<h4>starwars</h4>
+<p>There are also built-in data inside <code>dplyr</code> packages. For
+example, there is a dataset called <code>starwars</code>.</p>
+<p>We can import them with a few lines of codes.</p>
+<pre class="r"><code>#install.packages(&quot;dplyr&quot;)
+#library(dplyr)</code></pre>
+<p>We just called out the <code>dplyr</code> package, where
+<code>starwars</code> dataset was stored in.</p>
+<pre class="r"><code>#starwars</code></pre>
+</div>
+</div>
+<div id="ways-to-check-data" class="section level3">
+<h3>Ways to Check Data</h3>
+<p>These functions are commonly used for checking data.</p>
+<p><code>View()</code> will open a new page for reading datasets.</p>
+<p><code>glimpse()</code> <code>head()</code> <code>tail()</code>
+<code>dim()</code> <code>slice()</code></p>
+<p>Also, you can check the qualities of datasets. For example,
+<code>ncol()</code> &amp; <code>nrow()</code> . Both of them can be
+found at once when using <code>dim()</code>.</p>
+</div>
+</div>
+<div id="overview-of-tidyverse-and-core-functions" class="section level2">
+<h2>Overview of Tidyverse and Core Functions</h2>
 <p>I really love tidyverse. It is a game changer. Three packages I use
 most often in tidyverse are:</p>
 <ol style="list-style-type: decimal">
@@ -1703,7 +1782,155 @@ library(&quot;tidyr&quot;)</code></pre>
 century. Although the way it looks (<code>%&gt;%</code>) does not strike
 me as a real pipe at all.</p>
 <p>Let us use an example to see how it works.</p>
-<div id="babynames" class="section level3">
+<div id="babynames-1" class="section level3">
+<h3>babynames</h3>
+<p><code>babynames</code> package is a built-in R package. It contains
+baby names in the US from year 1880 to year 2017.</p>
+<pre class="r"><code>#install.packages(&quot;babynames&quot;)
+library(babynames)</code></pre>
+<p>We can take a look at the data.</p>
+<pre class="r"><code>View(babynames)</code></pre>
+<p>RStudio should have created a separate page for the data. We can see
+that there are 5 columns: <code>year</code>, <code>sex</code>,
+<code>name</code>, <code>n</code>, and <code>prop</code>.</p>
+<p>Wait, what are <code>prop</code>?</p>
+<p>When we encounter questions like this, we can type
+<code>?+function/dataset</code> on the Console area. In this case, we
+typed <code>?babynames</code>.</p>
+<p>Once we hit enter, we can see the Help screen on the right side
+popped up some information. After reading the explanation of this
+dataset, we learned that <code>prop</code> means <code>n</code> divided
+by all babies of that sex with that name born in that year.</p>
+<p>Now, let’s say we want to know names of babies born in year 2000.</p>
+<pre class="r"><code>babynames %&gt;%
+    filter(year == 2000)</code></pre>
+<pre><code>## # A tibble: 29,769 × 5
+##     year sex   name          n    prop
+##    &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;     &lt;int&gt;   &lt;dbl&gt;
+##  1  2000 F     Emily     25953 0.0130 
+##  2  2000 F     Hannah    23080 0.0116 
+##  3  2000 F     Madison   19967 0.0100 
+##  4  2000 F     Ashley    17997 0.00902
+##  5  2000 F     Sarah     17697 0.00887
+##  6  2000 F     Alexis    17629 0.00884
+##  7  2000 F     Samantha  17266 0.00866
+##  8  2000 F     Jessica   15709 0.00787
+##  9  2000 F     Elizabeth 15094 0.00757
+## 10  2000 F     Taylor    15078 0.00756
+## # ℹ 29,759 more rows</code></pre>
+<p>Here we see all the baby names in 2000!</p>
+<p>In the code, I used <code>%&gt;%</code> to direct my dataset
+<code>babynames</code> into the next function <code>filter()</code>.</p>
+<p>Inside the <code>filter()</code> function, I told the program I want
+babies who were born in year 2000. In other words, I filtered out the
+babies which in the ‘year’ column, says ‘2000’.</p>
+<p>A good thing about the <code>%&gt;%</code> is that you can build one
+after another. Just like you can direct the water from east to west,
+then from west to north.</p>
+<p>Let’s try it out.</p>
+<pre class="r"><code>babynames %&gt;%
+    filter(year == 2000) %&gt;%
+    filter(sex == &quot;F&quot;)</code></pre>
+<pre><code>## # A tibble: 17,653 × 5
+##     year sex   name          n    prop
+##    &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;     &lt;int&gt;   &lt;dbl&gt;
+##  1  2000 F     Emily     25953 0.0130 
+##  2  2000 F     Hannah    23080 0.0116 
+##  3  2000 F     Madison   19967 0.0100 
+##  4  2000 F     Ashley    17997 0.00902
+##  5  2000 F     Sarah     17697 0.00887
+##  6  2000 F     Alexis    17629 0.00884
+##  7  2000 F     Samantha  17266 0.00866
+##  8  2000 F     Jessica   15709 0.00787
+##  9  2000 F     Elizabeth 15094 0.00757
+## 10  2000 F     Taylor    15078 0.00756
+## # ℹ 17,643 more rows</code></pre>
+<p>Here we put F with a quotation mark because it is a character,
+instead of a number. We need to specify that so that RStudio can
+understands us.</p>
+<p>Now the data is showing female babies who were both born in year
+2000.</p>
+<p>We can also acquire this output in another way.</p>
+<pre class="r"><code>babynames %&gt;%
+ filter(year == 2000 &amp; sex == &quot;F&quot;)</code></pre>
+<pre><code>## # A tibble: 17,653 × 5
+##     year sex   name          n    prop
+##    &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;     &lt;int&gt;   &lt;dbl&gt;
+##  1  2000 F     Emily     25953 0.0130 
+##  2  2000 F     Hannah    23080 0.0116 
+##  3  2000 F     Madison   19967 0.0100 
+##  4  2000 F     Ashley    17997 0.00902
+##  5  2000 F     Sarah     17697 0.00887
+##  6  2000 F     Alexis    17629 0.00884
+##  7  2000 F     Samantha  17266 0.00866
+##  8  2000 F     Jessica   15709 0.00787
+##  9  2000 F     Elizabeth 15094 0.00757
+## 10  2000 F     Taylor    15078 0.00756
+## # ℹ 17,643 more rows</code></pre>
+<p>Let us do more data transformation in the next chapter.</p>
+</div>
+</div>
+<div id="data-cleaning-and-transformation" class="section level2">
+<h2>Data Cleaning and Transformation</h2>
+</div>
+<div id="data-wrangling-and-reshaping" class="section level2">
+<h2>Data Wrangling and Reshaping</h2>
+</div>
+<div id="statistical-analysis" class="section level2">
+<h2>Statistical Analysis</h2>
+</div>
+<div id="data-visualization" class="section level2">
+<h2>Data Visualization</h2>
+</div>
+<div id="efficiency-tips-for-data-processing" class="section level2">
+<h2>Efficiency Tips for Data Processing</h2>
+</div>
+<div id="data-export" class="section level2">
+<h2>Data Export</h2>
+</div>
+<div id="colclusion-and-advanced-learning" class="section level2">
+<h2>Colclusion and Advanced Learning</h2>
+<div id="section" class="section level3">
+<h3></h3>
+</div>
+</div>
+<div id="my-happy-universe-with-tidyverse" class="section level2">
+<h2>my happy universe with tidyverse</h2>
+<p>I really love tidyverse. It is a game changer. Three packages I use
+most often in tidyverse are:</p>
+<ol style="list-style-type: decimal">
+<li><code>ggplot2</code></li>
+<li><code>dplyr</code></li>
+<li><code>tidyr</code></li>
+</ol>
+<p>But first we need to know what it is.</p>
+<p><code>Tidyverse</code> contains several packages, making data
+transformation and visualization (and my life) easier. Under the
+umbrella of <code>tidyverse</code>, we will be able to wrangle with data
+like a pro.</p>
+<p>We will delve deeper into the land of <code>ggplot2</code> in the
+future chapter. Here, we focus on <code>dplyr</code> and
+<code>tidyr</code> first.</p>
+<p><strong>If you have not use <code>tidyverse</code> before, you need
+to download the package first.</strong></p>
+<pre class="r"><code>#install.packages(&quot;tidyverse&quot;)
+#install.packages(&quot;dplyr&quot;)
+#install.packages(&quot;tidyr&quot;)</code></pre>
+<p>Next, let us not forget to also <strong>call out</strong> our
+packages, which we use <code>library()</code> function for the job.</p>
+<pre class="r"><code>library(&quot;tidyverse&quot;)
+library(&quot;dplyr&quot;)
+library(&quot;tidyr&quot;)</code></pre>
+<p>You are all set.</p>
+<p>Before we jump into anything, let us meet a funny-looking friend.
+<em>The pipe.</em></p>
+<p>It looks like this:</p>
+<pre class="r"><code>#%&gt;%</code></pre>
+<p>In my humble opinion, this is one of the greatest analogy in this
+century. Although the way it looks (<code>%&gt;%</code>) does not strike
+me as a real pipe at all.</p>
+<p>Let us use an example to see how it works.</p>
+<div id="babynames-2" class="section level3">
 <h3>babynames</h3>
 <p><code>babynames</code> package is a built-in R package. It contains
 baby names in the US from year 1880 to year 2017.</p>
@@ -1970,9 +2197,9 @@ latv %&gt;%
   coord_flip()+
   theme_void()</code></pre>
 <pre><code>## Warning: `position_stack()` requires non-overlapping x intervals.</code></pre>
-<p><img src="data:image/png;base64,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sAq6J0CAAAECBAgQIBASMABCZYlKgAABAgQIECBAYBUwAFZB9wQIECBAgAABAgRCAgZAqCxRCRAgQIAAAQIECKwCBsAq6J4AAQIECBAgQIBASMAACJUlKgECBAgQIECAAIFVwABYBd0TIECAAAECBAgQCAkYAKGyRCVAgAABAgQIECCwChgAq6B7AgQIECBAgAABAiEBAyBUlqgECBAgQIAAAQIEVgEDYBV0T4AAAQIECBAgQCAkYACEyhKVAAECBAgQIECAwCpgAKyC7gkQIECAAAECBAiEBAyAUFmiEiBAgAABAgQIEFgFDIBV0D0BAgQIECBAgACBkIABECpLVAIECBAgQIAAAQKrgAGwCronQIAAAQIECBAgEBIwAEJliUqAAAECBAgQIEBgFTAAVkH3BAgQIECAAAECBEICBkCoLFEJECBAgAABAgQIrAIGwCrongABAgQIECBAgEBIwAAIlSUqAQIECBAgQIAAgVXAAFgF3RMgQIAAAQIECBAICRgAobJEJUCAAAECBAgQILAKGACroHsCBAgQIECAAAECIQEDIFSWqAQIECBAgAABAgRWAQNgFXRPgAABAgQIECBAICRgAITKEpUAAQIECBAgQIDAKmAArILuCRAgQIAAAQIECIQEDIBQWaISIECAAAECBAgQWAUMgFXQPQECBAgQIECAAIGQgAEQKktUAgQIECBAgAABAquAAbAKuidAgAABAgQIECAQEjAAQmWJSoAAAQIECBAgQGAVMABWQfcECBAgQIAAAQIEQgIGQKgsUQkQIECAAAECBAisAgbAKuieAAECBAgQIECAQEjAAAiVJSoBAgQIECBAgACBVcAAWAXdEyBAgAABAgQIEAgJGAChskQlQIAAAQIECBAgsAoYAKugewIECBAgQIAAAQIhAQMgVJaoBAgQIECAAAECBFYBA2AVdE+AAAECBAgQIEAgJGAAhMoSlQABAgQIECBAgMAqYACsgu4JECBAgAABAgQIhAQMgFBZohIgQIAAAQIECBBYBQyAVdA9AQIECBAgQIAAgZCAARAqS1QCBAgQIECAAAECq4ABsAq6J0CAAAECBAgQIBASMABCZYlKgAABAgQIECBAYBUwAFZB9wQIECBAgAABAgRCAgZAqCxRCRAgQIAAAQIECKwCBsAq6J4AAQIECBAgQIBASMAACJUlKgECBAgQIECAAIFVwABYBd0TIECAAAECBAgQCAkYAKGyRCVAgAABAgQIECCwChgAq6B7AgQIECBAgAABAiEBAyBUlqgECBAgQIAAAQIEVgEDYBV0T4AAAQIECBAgQCAkYACEyhKVAAECBAgQIECAwCpgAKyC7gkQIECAAAECBAiEBAyAUFmiEiBAgAABAgQIEFgFDIBV0D0BAgQIECBAgACBkIABECpLVAIECBAgQIAAAQKrgAGwCronQIAAAQIECBAgEBIwAEJliUqAAAECBAgQIEBgFTAAVkH3BAgQIECAAAECBEICBkCoLFEJECBAgAABAgQIrAIGwCrongABAgQIECBAgEBIwAAIlSUqAQIECBAgQIAAgVXAAFgF3RMgQIAAAQIECBAICRgAobJEJUCAAAECBAgQILAKGACroHsCBAgQIECAAAECIQEDIFSWqAQIECBAgAABAgRWAQNgFXRPgAABAgQIECBAICRgAITKEpUAAQIECBAgQIDAKmAArILuCRAgQIAAAQIECIQEDIBQWaISIECAAAECBAgQWAUMgFXQPQECBAgQIECAAIGQgAEQKktUAgQIECBAgAABAquAAbAKuidAgAABAgQIECAQEjAAQmWJSoAAAQIECBAgQGAVMABWQfcECBAgQIAAAQIEQgIGQKgsUQkQIECAAAECBAisAgbAKuieAAECBAgQIECAQEjAAAiVJSoBAgQIECBAgACBVcAAWAXdEyBAgAABAgQIEAgJGAChskQlQIAAAQIECBAgsAoYAKugewIECBAgQIAAAQIhAQMgVJaoBAgQIECAAAECBFYBA2AVdE+AAAECBAgQIEAgJGAAhMoSlQABAgQIECBAgMAqYACsgu4JECBAgAABAgQIhAQMgFBZohIgQIAAAQIECBBYBQyAVdA9AQIECBAgQIAAgZCAARAqS1QCBAgQIECAAAECq4ABsAq6J0CAAAECBAgQIBASMABCZYlKgAABAgQIECBAYBUwAFZB9wQIECBAgAABAgRCAgZAqCxRCRAgQIAAAQIECKwCBsAq6J4AAQIECBAgQIBASMAACJUlKgECBAgQIECAAIFVwABYBd0TIECAAAECBAgQCAkYAKGyRCVAgAABAgQIECCwChgAq6B7AgQIECBAgAABAiEBAyBUlqgECBAgQIAAAQIEVgEDYBV0T4AAAQIECBAgQCAkYACEyhKVAAECBAgQIECAwCpgAKyC7gkQIECAAAECBAiEBF5//79QXlEJECBAgAABAgQIEBgE/AEY8JwSIECAAAECBAgQqAkYALXG5CVAgAABAgQIECAwCBgAA55TAgQIECBAgAABAjUBA6DWmLwECBAgQIAAAQIEBgEDYMBzSoAAAQIECBAgQKAmYADUGpOXAAECBAgQIECAwCBgAAx4TgkQIECAAAECBAjUBAyAWmPyEiBAgAABAgQIEBgEDIABzykBAgQIECBAgACBmoABUGtMXgIECBAgQIAAAQKDgAEw4DklQIAAAQIECBAgUBMwAGqNyUuAAAECBAgQIEBgEDAABjynBAgQIECAAAECBGoCBkCtMXkJECBAgAABAgQIDAIGwIDnlAABAgQIECBAgEBNwACoNSYvAQIECBAgQIAAgUHAABjwnBIgQIAAAQIECBCoCRgAtcbkJUCAAAECBAgQIDAIGAADnlMCBAgQIECAAAECNQEDoNaYvAQIECBAgAABAgQGAQNgwHNKgAABAgQIECBAoCZgANQak5cAAQIECBAgQIDAIGAADHhOCRAgQIAAAQIECNQEDIBaY/ISIECAAAECBAgQGAQMgAHPKQECBAgQIECAAIGagAFQa0xeAgQIECBAgAABAoOAATDgOSVAgAABAgQIECBQEzAAao3JS4AAAQIECBAgQGAQMAAGPKcECBAgQIAAAQIEagIGQK0xeQkQIECAAAECBAgMAgbAgOeUAAECBAgQIECAQE3AAKg1Ji8BAgQIECBAgACBQcAAGPCcEiBAgAABAgQIEKgJGAC1xuQlQIAAAQIECBAgMAgYAAOeUwIECBAgQIAAAQI1AQOg1pi8BAgQIECAAAECBAYBA2DAc0qAAAECBAgQIECgJmAA1BqTlwABAgQIECBAgMAgYAAMeE4JECBAgAABAgQI1AQMgFpj8hIgQIAAAQIECBAYBAyAAc8pAQIECBAgQIAAgZqAAVBrTF4CBAgQIECAAAECg4ABMOA5JUCAAAECBAgQIFATMABqjclLgAABAgQIECBAYBAwAAY8pwQIECBAgAABAgRqAgZArTF5CRAgQIAAAQIECAwCBsCA55QAAQIECBAgQIBATcAAqDUmLwECBAgQIECAAIFBwAAY8JwSIECAAAECBAgQqAkYALXG5CVAgAABAgQIECAwCBgAA55TAgQIECBAgAABAjUBA6DWmLwECBAgQIAAAQIEBgEDYMBzSoAAAQIECBAgQKAmYADUGpOXAAECBAgQIECAwCBgAAx4TgkQIECAAAECBAjUBAyAWmPyEiBAgAABAgQIEBgEDIABzykBAgQIECBAgACBmoABUGtMXgIECBAgQIAAAQKDgAEw4DklQIAAAQIECBAgUBMwAGqNyUuAAAECBAgQIEBgEDAABjynBAgQIECAAAECBGoCBkCtMXkJECBAgAABAgQIDAIGwIDnlAABAgQIECBAgEBNwACoNSYvAQIECBAgQIAAgUHAABjwnBIgQIAAAQIECBCoCRgAtcbkJUCAAAECBAgQIDAIGAADnlMCBAgQIECAAAECNQEDoNaYvAQIECBAgAABAgQGAQNgwHNKgAABAgQIECBAoCZgANQak5cAAQIECBAgQIDAIGAADHhOCRAgQIAAAQIECNQEDIBaY/ISIECAAAECBAgQGAQMgAHPKQECBAgQIECAAIGagAFQa0xeAgQIECBAgAABAoOAATDgOSVAgAABAgQIECBQEzAAao3JS4AAAQIECBAgQGAQMAAGPKcECBAgQIAAAQIEagIGQK0xeQkQIECAAAECBAgMAgbAgOeUAAECBAgQIECAQE3AAKg1Ji8BAgQIECBAgACBQcAAGPCcEiBAgAABAgQIEKgJGAC1xuQlQIAAAQIECBAgMAgYAAOeUwIECBAgQIAAAQI1AQOg1pi8BAgQIECAAAECBAYBA2DAc0qAAAECBAgQIECgJmAA1BqTlwABAgQIECBAgMAgYAAMeE4JECBAgAABAgQI1AQMgFpj8hIgQIAAAQIECBAYBAyAAc8pAQIECBAgQIAAgZqAAVBrTF4CBAgQIECAAAECg4ABMOA5JUCAAAECBAgQIFATMABqjclLgAABAgQIECBAYBAwAAY8pwQIECBAgAABAgRqAgZArTF5CRAgQIAAAQIECAwCBsCA55QAAQIECBAgQIBATcAAqDUmLwECBAgQIECAAIFBwAAY8JwSIECAAAECBAgQqAkYALXG5CVAgAABAgQIECAwCBgAA55TAgQIECBAgAABAjUBA6DWmLwECBAgQIAAAQIEBgEDYMBzSoAAAQIECBAgQKAm8P5MgR8fn88URxYCBAgQIECAAAECJwJfP98n71w84g/AhaI3CBAgQIAAAQIECEQEDIBIUWISIECAAAECBAgQuBAwAC4UvUGAAAECBAgQIEAgImAARIoSkwABAgQIECBAgMCFgAFwoegNAgQIECBAgAABAhEBAyBSlJgECBAgQIAAAQIELgQMgAtFbxAgQIAAAQIECBCICBgAkaLEJECAAAECBAgQIHAhYABcKHqDAAECBAgQIECAQETAAIgUJSYBAgQIECBAgACBCwED4ELRGwQIECBAgAABAgQiAgZApCgxCRAgQIAAAQIECFwIGAAXit4gQIAAAQIECBAgEBEwACJFiUmAAAECBAgQIEDgQsAAuFD0BgECBAgQIECAAIGIgAEQKUpMAgQIECBAgAABAhcCBsCFojcIECBAgAABAgQIRAQMgEhRYhIgQIAAAQIECBC4EDAALhS9QYAAAQIECBAgQCAiYABEihKTAAECBAgQIECAwIWAAXCh6A0CBAgQIECAAAECEQEDIFKUmAQIECBAgAABAgQuBAyAC0VvECBAgAABAgQIEIgIGACRosQkQIAAAQIECBAgcCFgAFwoeoMAAQIECBAgQIBARMAAiBQlJgECBAgQIECAAIELAQPgQtEbBAgQIECAAAECBCICBkCkKDEJECBAgAABAgQIXAgYABeK3iBAgAABAgQIECAQETAAIkWJSYAAAQIECBAgQOBCwAC4UPQGAQIECBAgQIAAgYiAARApSkwCBAgQIECAAAECFwIGwIWiNwgQIECAAAECBAhEBAyASFFiEiBAgAABAgQIELgQMAAuFL1BgAABAgQIECBAICJgAESKEpMAAQIECBAgQIDAhYABcKHoDQIECBAgQIAAAQIRAQMgUpSYBAgQIECAAAECBC4EDIALRW8QIECAAAECBAgQiAgYAJGixCRAgAABAgQIECBwIWAAXCh6gwABAgQIECBAgEBEwACIFCUmAQIECBAgQIAAgQsBA+BC0RsECBAgQIAAAQIEIgIGQKQoMQkQIECAAAECBAhcCBgAF4reIECAAAECBAgQIBARMAAiRYlJgAABAgQIECBA4ELAALhQ9AYBAgQIECBAgACBiIABEClKTAIECBAgQIAAAQIXAgbAhaI3CBAgQIAAAQIECEQEDIBIUWISIECAAAECBAgQuBAwAC4UvUGAAAECBAgQIEAgImAARIoSkwABAgQIECBAgMCFgAFwoegNAgQIECBAgAABAhEBAyBSlJgECBAgQIAAAQIELgQMgAtFbxAgQIAAAQIECBCICBgAkaLEJECAAAECBAgQIHAhYABcKHqDAAECBAgQIECAQETAAIgUJSYBAgQIECBAgACBCwED4ELRGwQIECBAgAABAgQiAgZApCgxCRAgQIAAAQIECFwIGAAXit4gQIAAAQIECBAgEBEwACJFiUmAAAECBAgQIEDgQsAAuFD0BgECBAgQIECAAIGIgAEQKUpMAgQIECBAgAABAhcCBsCFojcIECBAgAABAgQIRAQMgEhRYhIgQIAAAQIECBC4EDAALhS9QYAAAQIECBAgQCAiYABEihKTAAECBAgQIECAwIWAAXCh6A0CBAgQIECAAAECEQEDIFKUmAQIECBAgAABAgQuBAyAC0VvECBAgAABAgQIEIgIGACRosQkQIAAAQIECBAgcCFgAFwoeoMAAQIECBAgQIBARMAAiBQlJgECBAgQIECAAIELAQPgQtEbBAgQIECAAAECBCICBkCkKDEJECBAgAABAgQIXAgYABeK3iBAgAABAgQIECAQETAAIkWJSYAAAQIECBAgQOBCwAC4UPQGAQIECBAgQIAAgYiAARApSkwCBAgQIECAAAECFwIGwIWiNwgQIECAAAECBAhEBAyASFFiEiBAgAABAgQIELgQMAAuFL1BgAABAgQIECBAICJgAESKEpMAAQIECBAgQIDAhYABcKHoDQIECBAgQIAAAQIRAQMgUpSYBAgQIECAAAECBC4EDIALRW8QIECAAAECBAgQiAgYAJGixCRAgAABAgQIECBwIWAAXCh6gwABAgQIECBAgEBEwACIFCUmAQIECBAgQIAAgQsBA+BC0RsECBAgQIAAAQIEIgIGQKQoMQkQIECAAAECBAhcCBgAF4reIECAAAECBAgQIBARMAAiRYlJgAABAgQIECBA4ELAALhQ9AYBAgQIECBAgACBiIABEClKTAIECBAgQIAAAQIXAgbAhaI3CBAgQIAAAQIECEQEDIBIUWISIECAAAECBAgQuBAwAC4UvUGAAAECBAgQIEAgImAARIoSkwABAgQIECBAgMCFgAFwoegNAgQIECBAgAABAhEBAyBSlJgECBAgQIAAAQIELgQMgAtFbxAgQIAAAQIECBCICBgAkaLEJECAAAECBAgQIHAhYABcKHqDAAECBAgQIECAQETAAIgUJSYBAgQIECBAgACBCwED4ELRGwQIECBAgAABAgQiAgZApCgxCRAgQIAAAQIECFwIGAAXit4gQIAAAQIECBAgEBEwACJFiUmAAAECBAgQIEDgQsAAuFD0BgECBAgQIECAAIGIgAEQKUpMAgQIECBAgAABAhcCBsCFojcIECBAgAABAgQIRAQMgEhRYhIgQIAAAQIECBC4EDAALhS9QYAAAQIECBAgQCAiYABEihKTAAECBAgQIECAwIWAAXCh6A0CBAgQIECAAAECEQEDIFKUmAQIECBAgAABAgQuBAyAC0VvECBAgAABAgQIEIgIGACRosQkQIAAAQIECBAgcCFgAFwoeoMAAQIECBAgQIBARMAAiBQlJgECBAgQIECAAIELAQPgQtEbBAgQIECAAAECBCICBkCkKDEJECBAgAABAgQIXAgYABeK3iBAgAABAgQIECAQETAAIkWJSYAAAQIECBAgQOBCwAC4UPQGAQIECBAgQIAAgYiAARApSkwCBAgQIECAAAECFwIGwIWiNwgQIECAAAECBAhEBAyASFFiEiBAgAABAgQIELgQMAAuFL1BgAABAgQIECBAICJgAESKEpMAAQIECBAgQIDAhYABcKHoDQIECBAgQIAAAQIRAQMgUpSYBAgQIECAAAECBC4EDIALRW8QIECAAAECBAgQiAgYAJGixCRAgAABAgQIECBwIWAAXCh6gwABAgQIECBAgEBE4A/7pRD57q90vwAAAABJRU5ErkJggg==" width="384" style="display: block; margin: auto;" />
-I am still a bit struggling with the width part. The flag looks okay but
-I don’t think this is the correct way to do it.</p>
+<p><img src="data:image/png;base64,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sAq6J0CAAAECBAgQIBASMABCZYlKgAABAgQIECBAYBUwAFZB9wQIECBAgAABAgRCAgZAqCxRCRAgQIAAAQIECKwCBsAq6J4AAQIECBAgQIBASMAACJUlKgECBAgQIECAAIFVwABYBd0TIECAAAECBAgQCAkYAKGyRCVAgAABAgQIECCwChgAq6B7AgQIECBAgAABAiEBAyBUlqgECBAgQIAAAQIEVgEDYBV0T4AAAQIECBAgQCAkYACEyhKVAAECBAgQIECAwCpgAKyC7gkQIECAAAECBAiEBAyAUFmiEiBAgAABAgQIEFgFDIBV0D0BAgQIECBAgACBkIABECpLVAIECBAgQIAAAQKrgAGwCronQIAAAQIECBAgEBIwAEJliUqAAAECBAgQIEBgFTAAVkH3BAgQIECAAAECBEICBkCoLFEJECBAgAABAgQIrAIGwCrongABAgQIECBAgEBIwAAIlSUqAQIECBAgQIAAgVXAAFgF3RMgQIAAAQIECBAICRgAobJEJUCAAAECBAgQILAKGACroHsCBAgQIECAAAECIQEDIFSWqAQIECBAgAABAgRWAQNgFXRPgAABAgQIECBAICRgAITKEpUAAQIECBAgQIDAKmAArILuCRAgQIAAAQIECIQEDIBQWaISIECAAAECBAgQWAUMgFXQPQECBAgQIECAAIGQgAEQKktUAgQIECBAgAABAquAAbAKuidAgAABAgQIECAQEjAAQmWJSoAAAQIECBAgQGAVMABWQfcECBAgQIAAAQIEQgIGQKgsUQkQIECAAAECBAisAgbAKuieAAECBAgQIECAQEjAAAiVJSoBAgQIECBAgACBVcAAWAXdEyBAgAABAgQIEAgJGAChskQlQIAAAQIECBAgsAoYAKugewIECBAgQIAAAQIhAQMgVJaoBAgQIECAAAECBFYBA2AVdE+AAAECBAgQIEAgJGAAhMoSlQABAgQIECBAgMAqYACsgu4JECBAgAABAgQIhAQMgFBZohIgQIAAAQIECBBYBQyAVdA9AQIECBAgQIAAgZCAARAqS1QCBAgQIECAAAECq4ABsAq6J0CAAAECBAgQIBASMABCZYlKgAABAgQIECBAYBUwAFZB9wQIECBAgAABAgRCAgZAqCxRCRAgQIAAAQIECKwCBsAq6J4AAQIECBAgQIBASMAACJUlKgECBAgQIECAAIFVwABYBd0TIECAAAECBAgQCAkYAKGyRCVAgAABAgQIECCwChgAq6B7AgQIECBAgAABAiEBAyBUlqgECBAgQIAAAQIEVgEDYBV0T4AAAQIECBAgQCAkYACEyhKVAAECBAgQIECAwCpgAKyC7gkQIECAAAECBAiEBAyAUFmiEiBAgAABAgQIEFgFDIBV0D0BAgQIECBAgACBkIABECpLVAIECBAgQIAAAQKrgAGwCronQIAAAQIECBAgEBIwAEJliUqAAAECBAgQIEBgFTAAVkH3BAgQIECAAAECBEICBkCoLFEJECBAgAABAgQIrAIGwCrongABAgQIECBAgEBIwAAIlSUqAQIECBAgQIAAgVXAAFgF3RMgQIAAAQIECBAICRgAobJEJUCAAAECBAgQILAKGACroHsCBAgQIECAAAECIQEDIFSWqAQIECBAgAABAgRWAQNgFXRPgAABAgQIECBAICRgAITKEpUAAQIECBAgQIDAKmAArILuCRAgQIAAAQIECIQEDIBQWaISIECAAAECBAgQWAUMgFXQPQECBAgQIECAAIGQgAEQKktUAgQIECBAgAABAquAAbAKuidAgAABAgQIECAQEjAAQmWJSoAAAQIECBAgQGAVMABWQfcECBAgQIAAAQIEQgIGQKgsUQkQIECAAAECBAisAgbAKuieAAECBAgQIECAQEjAAAiVJSoBAgQIECBAgACBVcAAWAXdEyBAgAABAgQIEAgJGAChskQlQIAAAQIECBAgsAoYAKugewIECBAgQIAAAQIhAQMgVJaoBAgQIECAAAECBFYBA2AVdE+AAAECBAgQIEAgJGAAhMoSlQABAgQIECBAgMAqYACsgu4JECBAgAABAgQIhAQMgFBZohIgQIAAAQIECBBYBQyAVdA9AQIECBAgQIAAgZCAARAqS1QCBAgQIECAAAECq4ABsAq6J0CAAAECBAgQIBASMABCZYlKgAABAgQIECBAYBUwAFZB9wQIECBAgAABAgRCAgZAqCxRCRAgQIAAAQIECKwCBsAq6J4AAQIECBAgQIBASMAACJUlKgECBAgQIECAAIFVwABYBd0TIECAAAECBAgQCAkYAKGyRCVAgAABAgQIECCwChgAq6B7AgQIECBAgAABAiEBAyBUlqgECBAgQIAAAQIEVgEDYBV0T4AAAQIECBAgQCAkYACEyhKVAAECBAgQIECAwCpgAKyC7gkQIECAAAECBAiEBF5//79QXlEJECBAgAABAgQIEBgE/AEY8JwSIECAAAECBAgQqAkYALXG5CVAgAABAgQIECAwCBgAA55TAgQIECBAgAABAjUBA6DWmLwECBAgQIAAAQIEBgEDYMBzSoAAAQIECBAgQKAmYADUGpOXAAECBAgQIECAwCBgAAx4TgkQIECAAAECBAjUBAyAWmPyEiBAgAABAgQIEBgEDIABzykBAgQIECBAgACBmoABUGtMXgIECBAgQIAAAQKDgAEw4DklQIAAAQIECBAgUBMwAGqNyUuAAAECBAgQIEBgEDAABjynBAgQIECAAAECBGoCBkCtMXkJECBAgAABAgQIDAIGwIDnlAABAgQIECBAgEBNwACoNSYvAQIECBAgQIAAgUHAABjwnBIgQIAAAQIECBCoCRgAtcbkJUCAAAECBAgQIDAIGAADnlMCBAgQIECAAAECNQEDoNaYvAQIECBAgAABAgQGAQNgwHNKgAABAgQIECBAoCZgANQak5cAAQIECBAgQIDAIGAADHhOCRAgQIAAAQIECNQEDIBaY/ISIECAAAECBAgQGAQMgAHPKQECBAgQIECAAIGagAFQa0xeAgQIECBAgAABAoOAATDgOSVAgAABAgQIECBQEzAAao3JS4AAAQIECBAgQGAQMAAGPKcECBAgQIAAAQIEagIGQK0xeQkQIECAAAECBAgMAgbAgOeUAAECBAgQIECAQE3AAKg1Ji8BAgQIECBAgACBQcAAGPCcEiBAgAABAgQIEKgJGAC1xuQlQIAAAQIECBAgMAgYAAOeUwIECBAgQIAAAQI1AQOg1pi8BAgQIECAAAECBAYBA2DAc0qAAAECBAgQIECgJmAA1BqTlwABAgQIECBAgMAgYAAMeE4JECBAgAABAgQI1AQMgFpj8hIgQIAAAQIECBAYBAyAAc8pAQIECBAgQIAAgZqAAVBrTF4CBAgQIECAAAECg4ABMOA5JUCAAAECBAgQIFATMABqjclLgAABAgQIECBAYBAwAAY8pwQIECBAgAABAgRqAgZArTF5CRAgQIAAAQIECAwCBsCA55QAAQIECBAgQIBATcAAqDUmLwECBAgQIECAAIFBwAAY8JwSIECAAAECBAgQqAkYALXG5CVAgAABAgQIECAwCBgAA55TAgQIECBAgAABAjUBA6DWmLwECBAgQIAAAQIEBgEDYMBzSoAAAQIECBAgQKAmYADUGpOXAAECBAgQIECAwCBgAAx4TgkQIECAAAECBAjUBAyAWmPyEiBAgAABAgQIEBgEDIABzykBAgQIECBAgACBmoABUGtMXgIECBAgQIAAAQKDgAEw4DklQIAAAQIECBAgUBMwAGqNyUuAAAECBAgQIEBgEDAABjynBAgQIECAAAECBGoCBkCtMXkJECBAgAABAgQIDAIGwIDnlAABAgQIECBAgEBNwACoNSYvAQIECBAgQIAAgUHAABjwnBIgQIAAAQIECBCoCRgAtcbkJUCAAAECBAgQIDAIGAADnlMCBAgQIECAAAECNQEDoNaYvAQIECBAgAABAgQGAQNgwHNKgAABAgQIECBAoCZgANQak5cAAQIECBAgQIDAIGAADHhOCRAgQIAAAQIECNQEDIBaY/ISIECAAAECBAgQGAQMgAHPKQECBAgQIECAAIGagAFQa0xeAgQIECBAgAABAoOAATDgOSVAgAABAgQIECBQEzAAao3JS4AAAQIECBAgQGAQMAAGPKcECBAgQIAAAQIEagIGQK0xeQkQIECAAAECBAgMAgbAgOeUAAECBAgQIECAQE3AAKg1Ji8BAgQIECBAgACBQcAAGPCcEiBAgAABAgQIEKgJGAC1xuQlQIAAAQIECBAgMAgYAAOeUwIECBAgQIAAAQI1AQOg1pi8BAgQIECAAAECBAYBA2DAc0qAAAECBAgQIECgJmAA1BqTlwABAgQIECBAgMAgYAAMeE4JECBAgAABAgQI1AQMgFpj8hIgQIAAAQIECBAYBAyAAc8pAQIECBAgQIAAgZqAAVBrTF4CBAgQIECAAAECg4ABMOA5JUCAAAECBAgQIFATMABqjclLgAABAgQIECBAYBAwAAY8pwQIECBAgAABAgRqAgZArTF5CRAgQIAAAQIECAwCBsCA55QAAQIECBAgQIBATcAAqDUmLwECBAgQIECAAIFBwAAY8JwSIECAAAECBAgQqAkYALXG5CVAgAABAgQIECAwCBgAA55TAgQIECBAgAABAjUBA6DWmLwECBAgQIAAAQIEBgEDYMBzSoAAAQIECBAgQKAm8P5MgR8fn88URxYCBAgQIECAAAECJwJfP98n71w84g/AhaI3CBAgQIAAAQIECEQEDIBIUWISIECAAAECBAgQuBAwAC4UvUGAAAECBAgQIEAgImAARIoSkwABAgQIECBAgMCFgAFwoegNAgQIECBAgAABAhEBAyBSlJgECBAgQIAAAQIELgQMgAtFbxAgQIAAAQIECBCICBgAkaLEJECAAAECBAgQIHAhYABcKHqDAAECBAgQIECAQETAAIgUJSYBAgQIECBAgACBCwED4ELRGwQIECBAgAABAgQiAgZApCgxCRAgQIAAAQIECFwIGAAXit4gQIAAAQIECBAgEBEwACJFiUmAAAECBAgQIEDgQsAAuFD0BgECBAgQIECAAIGIgAEQKUpMAgQIECBAgAABAhcCBsCFojcIECBAgAABAgQIRAQMgEhRYhIgQIAAAQIECBC4EDAALhS9QYAAAQIECBAgQCAiYABEihKTAAECBAgQIECAwIWAAXCh6A0CBAgQIECAAAECEQEDIFKUmAQIECBAgAABAgQuBAyAC0VvECBAgAABAgQIEIgIGACRosQkQIAAAQIECBAgcCFgAFwoeoMAAQIECBAgQIBARMAAiBQlJgECBAgQIECAAIELAQPgQtEbBAgQIECAAAECBCICBkCkKDEJECBAgAABAgQIXAgYABeK3iBAgAABAgQIECAQETAAIkWJSYAAAQIECBAgQOBCwAC4UPQGAQIECBAgQIAAgYiAARApSkwCBAgQIECAAAECFwIGwIWiNwgQIECAAAECBAhEBAyASFFiEiBAgAABAgQIELgQMAAuFL1BgAABAgQIECBAICJgAESKEpMAAQIECBAgQIDAhYABcKHoDQIECBAgQIAAAQIRAQMgUpSYBAgQIECAAAECBC4EDIALRW8QIECAAAECBAgQiAgYAJGixCRAgAABAgQIECBwIWAAXCh6gwABAgQIECBAgEBEwACIFCUmAQIECBAgQIAAgQsBA+BC0RsECBAgQIAAAQIEIgIGQKQoMQkQIECAAAECBAhcCBgAF4reIECAAAECBAgQIBARMAAiRYlJgAABAgQIECBA4ELAALhQ9AYBAgQIECBAgACBiIABEClKTAIECBAgQIAAAQIXAgbAhaI3CBAgQIAAAQIECEQEDIBIUWISIECAAAECBAgQuBAwAC4UvUGAAAECBAgQIEAgImAARIoSkwABAgQIECBAgMCFgAFwoegNAgQIECBAgAABAhEBAyBSlJgECBAgQIAAAQIELgQMgAtFbxAgQIAAAQIECBCICBgAkaLEJECAAAECBAgQIHAhYABcKHqDAAECBAgQIECAQETAAIgUJSYBAgQIECBAgACBCwED4ELRGwQIECBAgAABAgQiAgZApCgxCRAgQIAAAQIECFwIGAAXit4gQIAAAQIECBAgEBEwACJFiUmAAAECBAgQIEDgQsAAuFD0BgECBAgQIECAAIGIgAEQKUpMAgQIECBAgAABAhcCBsCFojcIECBAgAABAgQIRAQMgEhRYhIgQIAAAQIECBC4EDAALhS9QYAAAQIECBAgQCAiYABEihKTAAECBAgQIECAwIWAAXCh6A0CBAgQIECAAAECEQEDIFKUmAQIECBAgAABAgQuBAyAC0VvECBAgAABAgQIEIgIGACRosQkQIAAAQIECBAgcCFgAFwoeoMAAQIECBAgQIBARMAAiBQlJgECBAgQIECAAIELAQPgQtEbBAgQIECAAAECBCICBkCkKDEJECBAgAABAgQIXAgYABeK3iBAgAABAgQIECAQETAAIkWJSYAAAQIECBAgQOBCwAC4UPQGAQIECBAgQIAAgYiAARApSkwCBAgQIECAAAECFwIGwIWiNwgQIECAAAECBAhEBAyASFFiEiBAgAABAgQIELgQMAAuFL1BgAABAgQIECBAICJgAESKEpMAAQIECBAgQIDAhYABcKHoDQIECBAgQIAAAQIRAQMgUpSYBAgQIECAAAECBC4EDIALRW8QIECAAAECBAgQiAgYAJGixCRAgAABAgQIECBwIWAAXCh6gwABAgQIECBAgEBEwACIFCUmAQIECBAgQIAAgQsBA+BC0RsECBAgQIAAAQIEIgIGQKQoMQkQIECAAAECBAhcCBgAF4reIECAAAECBAgQIBARMAAiRYlJgAABAgQIECBA4ELAALhQ9AYBAgQIECBAgACBiIABEClKTAIECBAgQIAAAQIXAgbAhaI3CBAgQIAAAQIECEQEDIBIUWISIECAAAECBAgQuBAwAC4UvUGAAAECBAgQIEAgImAARIoSkwABAgQIECBAgMCFgAFwoegNAgQIECBAgAABAhEBAyBSlJgECBAgQIAAAQIELgQMgAtFbxAgQIAAAQIECBCICBgAkaLEJECAAAECBAgQIHAhYABcKHqDAAECBAgQIECAQETAAIgUJSYBAgQIECBAgACBCwED4ELRGwQIECBAgAABAgQiAgZApCgxCRAgQIAAAQIECFwIGAAXit4gQIAAAQIECBAgEBEwACJFiUmAAAECBAgQIEDgQsAAuFD0BgECBAgQIECAAIGIgAEQKUpMAgQIECBAgAABAhcCBsCFojcIECBAgAABAgQIRAQMgEhRYhIgQIAAAQIECBC4EDAALhS9QYAAAQIECBAgQCAiYABEihKTAAECBAgQIECAwIWAAXCh6A0CBAgQIECAAAECEQEDIFKUmAQIECBAgAABAgQuBAyAC0VvECBAgAABAgQIEIgIGACRosQkQIAAAQIECBAgcCFgAFwoeoMAAQIECBAgQIBARMAAiBQlJgECBAgQIECAAIELAQPgQtEbBAgQIECAAAECBCICBkCkKDEJECBAgAABAgQIXAgYABeK3iBAgAABAgQIECAQETAAIkWJSYAAAQIECBAgQOBCwAC4UPQGAQIECBAgQIAAgYiAARApSkwCBAgQIECAAAECFwIGwIWiNwgQIECAAAECBAhEBAyASFFiEiBAgAABAgQIELgQMAAuFL1BgAABAgQIECBAICJgAESKEpMAAQIECBAgQIDAhYABcKHoDQIECBAgQIAAAQIRAQMgUpSYBAgQIECAAAECBC4EDIALRW8QIECAAAECBAgQiAgYAJGixCRAgAABAgQIECBwIWAAXCh6gwABAgQIECBAgEBE4A/7pRD57q90vwAAAABJRU5ErkJggg==" width="384" style="display: block; margin: auto;" /></p>
+<p>I am still a bit struggling with the width part. The flag looks okay
+but I don’t think this is the correct way to do it.</p>
 <p>Now let’s try some with vertical lines.</p>
 <pre class="r"><code>ital &lt;- data.frame(name=c(&quot;A&quot;,&quot;B&quot;,&quot;C&quot;) ,
                    value=4)
