@@ -11,8 +11,11 @@ output:
     toc_float: yes
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE,
+  warning = FALSE,
+  message = FALSE)
 ```
 
 ## Introduction
@@ -58,15 +61,19 @@ Therefore, whenever you need to use some package you have not used before, you n
 Okay, I hope you are still with me, and not already in the kitchen looking for your chocolate spread.
 
 ## Data Import and Reading
+
 Let's import our data!
 
 ### Import Your Data
 
 **note: If this is your first time import data, and if your data is from an Excel file, then remember to type `install.packages("readxl")` on your coding space first.**
 
+```{r, eval = FALSE}
+install.packages("readxl")
+```
+
 ```{r}
-#install.packages("readxl")
-#library(readxl)
+library(readxl)
 ```
 
 There are of course tons of ways to import your data, but the following is what I use most often.
@@ -97,13 +104,13 @@ Go back to the coding section. Paste it (`Ctrl/Command + v`) on the coding secti
 
 (Let's hope R Studio never change their interface or else I will have to rewrite this part.)
 
-Also, sometimes you can use `head()` to see the first few rows of your data, just to make sure everything went well. 
+Also, sometimes you can use `head()` to see the first few rows of your data, just to make sure everything went well.
 
 ```{r}
 head(wether_math)
 ```
 
-Or you could just type in the data names. 
+Or you could just type in the data names.
 
 ```{r}
 wether_math
@@ -120,49 +127,57 @@ wether_math
 This is a made-up data. There are 10 imaginary people participate in this imaginary research. They do math test on both a rainy day and a sunny day. Their scores were recorded. Therefore, the first column is the participant number, the second column is the weather (either sunny or rainy), and the third column is their scores.
 
 ### Dataset packages
-#### babynames
-There are different data packages inside R. We can access those data by simply install them. For example, we can install a package called `babynames` . 
 
-This package contains baby names in the US from year 1880 to year 2017. 
+#### babynames
+
+There are different data packages inside R. We can access those data by simply install them. For example, we can install a package called `babynames` .
+
+This package contains baby names in the US from year 1880 to year 2017.
 
 Let us take a look.
 
+```{r, eval = FALSE}
+install.packages("babynames")
+```
+
 ```{r}
-#install.packages("babynames")
-#library(babynames)
-#View(babynames)
+library(babynames)
+babynames
 ```
 
 RStudio creates a separate page for the data when we use `View()` . We can see that there are 5 columns: `year`, `sex`, `name`, `n`, and `prop`.
 
-Wait, what is the `prop`? 
+Wait, what is the `prop`?
 
-When we encounter questions like this, we can type `?+function/dataset` on the Console area. In this case, we typed `?babynames`. 
+When we encounter questions like this, we can type `?+function/dataset` on the Console area. In this case, we typed `?babynames`.
 
-Once we hit enter, we can see the Help screen on the right side popped up some information. After reading the explanation of this dataset, we learned that `prop` means `n` divided by all babies of that sex with that name born in that year. 
+Once we hit enter, we can see the Help screen on the right side popped up some information. After reading the explanation of this dataset, we learned that `prop` means `n` divided by all babies of that sex with that name born in that year.
 
 #### starwars
 
-There are also built-in data inside `dplyr` packages. For example, there is a dataset called `starwars`. 
+There are also built-in data inside `dplyr` packages. For example, there is a dataset called `starwars`.
 
 We can import them with a few lines of codes.
 
-```{r}
-#install.packages("dplyr")
-#library(dplyr)
+```{r, eval = FALSE}
+install.packages("dplyr")
 ```
 
-We just called out the `dplyr` package, where `starwars` dataset was stored in. 
+```{r}
+library(dplyr)
+```
+
+We just called out the `dplyr` package, where `starwars` dataset was stored in.
 
 ```{r}
-#starwars
+starwars
 ```
 
 ### Ways to Check Data
 
 These functions are commonly used for checking data.
 
-`View()` will open a new page for reading datasets. 
+`View()` will open a new page for reading datasets.
 
 `glimpse()` `head()` `tail()` `dim()` `slice()`
 
@@ -184,10 +199,10 @@ We will delve deeper into the land of `ggplot2` in the future chapter. Here, we 
 
 **If you have not use `tidyverse` before, you need to download the package first.**
 
-```{r}
-#install.packages("tidyverse")
-#install.packages("dplyr")
-#install.packages("tidyr")
+```{r, eval = FALSE}
+install.packages("tidyverse")
+install.packages("dplyr")
+install.packages("tidyr")
 ```
 
 Next, let us not forget to also **call out** our packages, which we use `library()` function for the job.
@@ -204,8 +219,8 @@ Before we jump into anything, let us meet a funny-looking friend. *The pipe.*
 
 It looks like this:
 
-```{r}
-#%>%
+```{r, eval = FALSE}
+%>%
 ```
 
 In my humble opinion, this is one of the greatest analogy in this century. Although the way it looks (`%>%`) does not strike me as a real pipe at all.
@@ -216,15 +231,10 @@ Let us use an example to see how it works.
 
 `babynames` package is a built-in R package. It contains baby names in the US from year 1880 to year 2017.
 
-```{r}
-#install.packages("babynames")
-library(babynames)
-```
-
 We can take a look at the data.
 
 ```{r}
-View(babynames)
+babynames
 ```
 
 RStudio should have created a separate page for the data. We can see that there are 5 columns: `year`, `sex`, `name`, `n`, and `prop`.
@@ -271,279 +281,1120 @@ babynames %>%
 
 Let us do more data transformation in the next chapter.
 
-
-
 ## Data Cleaning and Transformation
+
+Here is a dataset for heros. I downloaded from <https://github.com/dariomalchiodi/superhero-datascience/blob/master/content/data/heroes.csv?plain=1>.
+
+```{r}
+library(readr)
+setwd  ("~/Documents/MMR")
+heroes <- read_delim("example files/heroes.csv", 
+    delim = ";", escape_double = FALSE, trim_ws = TRUE)
+View(heroes)
+```
+
+Note that the spread sheet is in `.csv` form. Therefore, when we import data, we can choose `From Text(readr)` instead of `From Test(Excel)`.
+
+However, we can see from the `Preview` to know that the data is not ideal as they only have one rows, with every information packed in each.
+
+Here, we click on `Delimiter` and choose `Semicolon`. Telling RStudio that in this dataset, we separate different columns by `;` instead of comma or tab.
+
+We can see from the data that it contains loads of heroes. If I want a neater view of data I needed the most, I can use `select()` to choose which columns I want to include for my further analysis.
+
+```{r}
+heroes |>
+  select(c("Name", "Height", "Weight", "Gender", "Eye color", "Hair color", "Strength", "Intelligence"))
+```
+
+Now, if I want to choose heroes that have a high intelligence level, we can use `filter()`.
+
+This function filters out the assigned rows.
+
+```{r}
+heroes |>
+  filter(Intelligence == "high")
+```
+
+The `select()` and `filter()` can be stacked together.
+
+Let us look for heros who are female, has strength over 50, and have high intelligence level.
+
+```{r}
+heroes |>
+  select(c("Name", "Gender", "Strength", "Intelligence")) |>
+  filter(Gender == "F" & Strength >= 50 & Intelligence == "high")
+```
+
+Next, if we want the same criteria except that we want both the intelligence `good` and `high`.
+
+There are two ways of doing it. The first method is to use `|` as `or`. The second is method is to use `%in%`, meaning that if the data fits either of the option, then choose them.
+
+```{r}
+# method 1
+heroes |>
+  select(c("Name", "Gender", "Strength", "Intelligence")) |>
+  filter(Gender == "F" & Strength >= 50) |>
+  filter(Intelligence == "high" | Intelligence == "good")
+```
+
+```{r}
+# method 2
+heroes |>
+  select(c("Name", "Gender", "Strength", "Intelligence")) |>
+  filter(Gender == "F" & Strength >= 50) |>
+  filter(Intelligence %in% c("high", "good"))
+```
+
+As we can see, both methods led to the same results. I would say the first one is more straight forward, however, I feel cooler when using the second method. :D
+
+If we want to know the heroes' BMI (body mass index), we can count the index by dividing their weights (in kilograms) by the square of their heights (in meters).
+
+$$
+weight(kg)/(height*height(m))
+$$
+
+According to this formula, we need to do the following things:
+
+-   add a new column that converts height from centimeters to meters
+
+-   calculate the square of the height in meters
+
+-   divide weight by the square of the heights
+
+```{r}
+heroes |>
+  mutate(Height_m = Height / 100) |> # convert heights from cm to m
+  mutate(Height_m2 = Height_m*Height_m) |> # square of the heights
+  mutate(BMI = Weight / Height_m2) # divide weights by the squrare of the heights
+```
+
+We can always simplified (or complicated, depending on your perspective) by mixing them into one line.
+
+```{r}
+heroes |>
+  mutate(BMI = Weight / (Height/100)^2) 
+```
+
+The results will be the same with either one of the coding methods above. Choose what suits you the best.
+
+There is a fun tip to put the new column on the left, instead of the right as default. The reason I like this method is that it helps me check the added column more easily, especially when there are lots of column. By doing so, I don't have to go to the very end of the data to see my new added column.
+
+```{r}
+heroes |>
+  mutate(BMI = Weight / (Height/100)^2, .before = 1) 
+```
+
+If I prefer the `Name` before `BMI`, I can use `.after = "Name" (column name)` to let RStudio know I want my new column be put on the right of the column I designated.
+
+```{r}
+heroes |>
+  mutate(BMI = Weight / (Height/100)^2, .after = "Name")
+```
+
+One last tip before we move on, if I want to only keep the columns we used during the `mutate()` process, instead of using `select()` and specify `BMI`, `Height`, and `Weight` columns, we can also use `.keep = "used"` to tell RStudio that we only want to keep those columns.
+
+```{r}
+heroes |>
+  mutate(BMI = Weight / (Height/100)^2, .keep = "used") 
+```
+
+Now, what I experienced in elementary school, is that after the health examination each year, students would be categorized by their BMI. Then, homeroom teachers would tell those students who were categorized as "overweight", "obese", or "underweight" to be careful of their BMIs.
+
+I am not going to discuss what kind of mental damage this caused me (as a child who often got the "overweight" label), but to use this as an example of how to categorize different numerical data into groups (categories) in RStudio.
+
+According to Wikipedia, BMI can be simply categorized as following:
+
+| BMI                     | Category           |
+|-------------------------|--------------------|
+| \< 18.5                 | underweight (UW)   |
+| 18.5 - 24.9 (inclusive) | normal weight (NW) |
+| 25.0 - 29.9 (inclusive) | overweight (OW)    |
+| \>= 30                  | obese (OB)         |
+
+What we are going to do now, is to also categorize those heroes according to their BMIs.
+
+We are still using `mutate()` since we are adding new columns containing their BMI status.
+
+```{r}
+heroes |>
+  mutate(BMI = Weight / (Height/100)^2, .after = "Name") |> 
+  mutate(BMI_status = case_when(BMI < 18.5 ~ "underweight",
+                                BMI >= 18.5 & BMI <= 24.9 ~ "normal_weight",
+                                BMI >= 25 & BMI <= 29.9 ~ "overweight",
+                                BMI >= 30 ~ "obese"), .after = "BMI") -> heroes2
+```
+
+```{r}
+heroes2 |>
+  count(BMI_status)
+```
+
+Here, we can see how many heroes are obese.
+
+We can also see that there is a row `<NA>`, it happens when the data is not complete. If we do not want those data with incomplete BMI information in our further analysis, we can remove the `<NA>` row by simply putting `na.omit()` into our codes. It would be easier to do further analysis as well.
+
+```{r}
+heroes2 |>
+  na.omit() |>
+  count(BMI_status) 
+```
+
+We can also **update** our `heroes2` data with data with not omissions.
+
+```{r}
+heroes2 |>
+  na.omit() -> heroes2
+
+```
+
+If we want further categorization, for instance, to know how many female and male heroes are obese or underweight, we can achieve it by adding another column into the `count()` function.
+
+```{r}
+heroes2 |>
+  count(Gender, BMI_status)
+```
+
+We can also use `group_by()` function, which will shortly be introduced in future chapters, to achieve the same result.
+
+```{r}
+heroes2 |>
+  group_by(Gender) |>
+  count(BMI_status)
+```
+
+One last thing before moving on to the next chapter, is that we can actually change the column names in our data without going back to the `.csv` or `.xlsx` files!
+
+Let's say we want to change the column `Hair color` into `Hair_color`, and `Eye color` into `Eye_color`.
+
+```{r}
+colnames(heroes2)[colnames(heroes2) == "Hair color"] <- "Hair_color"
+colnames(heroes2)[colnames(heroes2) == "Eye color"] <- "Eye_color"
+```
 
 ## Data Wrangling and Reshaping
 
+### pivot
+
+This part is a bit abstract when I first learnt it. However, it was very useful when we have a **wide data** but need to do further analysis. RStudio prefers data being presented as a long format. For example:
+
+| Name  | Height (cm) | Age |
+|-------|-------------|-----|
+| Lily  | 150         | 20  |
+| Mary  | 160         | 18  |
+| John  | 156         | 14  |
+| Steve | 180         | 15  |
+| Amy   | 174         | 16  |
+
+The above table can go on and on, by adding new names below. However, sometimes we will encounter data that looks like this:
+
+| Name  | Eng_C1 | Eng_C2 | **Eng_C3** | Math_C1 | Math_C2 | Math_C3 |
+|-------|--------|--------|------------|---------|---------|---------|
+| Kelly | 90     | 95     | 80         | 90      | 80      | 97      |
+| Liam  | 70     | 80     | 94         | 80      | 89      | 79      |
+| Henry | 79     | 80     | 85         | 96      | 92      | 90      |
+
+This is a made-up data displaying different students' exam performance. They took exams on both English and Math, from Chapter 1 (C1) to Chapter 3 (C3).
+
+In these cases, it is better to convert our **wide** data into **long** data. As we move along, we will start doing analysis (t-tests, ANOVAs...), when we are doing the analysis, it would be easier if we could assign **rows** as variables. For example, in the above table, I would want the *subject* (English or Math) to be one independent variable, and their *scores* as dependent variable.
+
+Let us create the data first.
+
+```{r}
+performance_original <- data.frame(
+   Name = c("Kelly", "Liam", "Henry", "Alice", "Jake", "Dan"),
+   Eng_C1 = c(90, 70, 79, 98, 81, 79),
+   Eng_C2 = c(95, 80, 80, 93, 93, 70),
+   Eng_C3 = c(80, 94, 85, 89, 73, 91),
+   Math_C1 = c(90, 80, 96, 83, 92, 68),
+   Math_C2 = c(80, 89, 92, 72, 84, 83),
+   Math_C3 = c(97, 79, 90, 74, 70, 92))
+```
+
+We want to make the data look somewhat like this:
+
+| Name          | Subject | Score |
+|---------------|---------|-------|
+| Kelly         | Eng_C1  | 90    |
+| Kelly         | Eng_C2  | 95    |
+| Kelly         | Eng_C3  | 80    |
+| Kelly         | Math_C1 | 90    |
+| Kelly         | Math_C2 | 80    |
+| Kelly         | Math_C3 | 97    |
+| Liam          | Eng_C1  | 70    |
+| Liam          | Eng_C2  | 80    |
+| Liam          | Eng_C3  | 94    |
+| Liam          | Math_C1 | 80    |
+| Liam          | Math_C2 | 89    |
+| Liam          | Math_C3 | 79    |
+| Henry         | Eng_C1  | 79    |
+| Henry         | Eng_C2  | 80    |
+| ... and so on |         |       |
+
+Here, we will use `pivot_longer()` to help us.
+
+```{r}
+performance_original |>
+  pivot_longer(!Name, names_to = "Subject", values_to = "Score") 
+```
+
+We can see that the data format became what we wanted. Let us see what are inside the code chunks. `!Name` means that I am asking RStudio to not consider the column `Name` as we still want the dataset contain students' names.
+
+Right after the `!Name`, we see the code `names_to =`. When we are compressing multiple columns into one (like we are doing right now), the name of the new column can be specify by `names_to =`. On this basis, when we look at `values_to =`, we can infer that it means putting the numerical data into this new column.
+
+However, there are other ways to accomplish the same result. It works when the original column numbers are not huge, or when you have too many columns to exclude than just names.
+
+```{r}
+performance_original |>
+  pivot_longer(cols = c("Eng_C1", "Eng_C2", "Eng_C3", "Math_C1", "Math_C2", "Math_C3"), 
+               names_to = "Subject", values_to = "Score") -> performance
+```
+
+Here, we use `cols =` to select the columns we want to compress. However, in this example, it would be easier to use `!Names` instead of using `cols =` and type out all columns that needed compressing.
+
+Now, bear with me when this gets even more abstract.
+
+If we want to **further separate** our data by chapters. For instance, we want to further separate `Subject` columns to `Subject_em` AND `Chapter`. In this case, we need to use `separate()` function.
+
+```{r}
+performance |>
+  separate(
+    col = Subject, 
+    into = c("Subject_em", "Chapter"),
+    sep = "[^[:alnum:]]+",
+    remove = TRUE,
+    convert = FALSE) -> performance
+```
+
+I know it looks scary, but please hear me out. This would be one of your best friends if you try to understand it. :)
+
+As we mentioned, we want to further separate our `Subject` column into `Subject_em` and `Chapter`. Hence, we use `col =` to specify which column is our target. Then, we use `into =` to tell RStudio that we want to separate the column above to columns with these names.
+
+Then, we saw a bizarre-looking code `sep = "[^[:alnum:]]+"`. We need to separate this line to understand it. In general, it means **"one or more non-alphabet or non-numeric characters"**.
+
+-   `[:alnum:]` means the **al**phabet A-Z (a-z), and **num**ber 0-9.
+
+-   `[^]` means **not include**.
+
+-   `+` means **one or more**.
+
+When we combine the above segments together, means that we want **one or more *things*** **that are *not* alphabet nor number**. In this case, we just want to fine the character `_`, and let RStudio knows that this `_` is the separation point.
+
+Moving on, we see `remove = TRUE` and `convert = FALSE`. Both of them are defaults in this `separate()` function. We do not have to type it. However, I want to put it here to remind myself.
+
+-   `remove = TRUE` means to delete the original column `Subject` in this case.
+
+-   `convert = FALSE` means that we do not want RStudio to change the types of columns for us. Sometimes after the separation, there would be columns with numerical data (for instance, separate `Eng_1` into `Eng` and `1`), if we choose `convert = TRUE`, then the column would be automatically changed into numeric. However, we can change the column type later on if we want to. We don't need RStudio to do that for us in this step. Thus, we keep this argument `FALSE`.
+
+Congratulations! Now we learned how to pivot our wide format data into long format data, and we learned how to separate columns. (After 5 years of learning and using RStuido, I am still stunned by its power. EVERY SINGLE TIME.)
+
+If we have `pivot_longer()`, there must be a `pivot_wider()`. As a matter of fact it did! However, like I said, RStudio prefers data with a long format for further analysis and graphing, therefore, I will only mention `pivot_longer()` here, as in my opinion it is more useful for data analysis and data visualization. (Or I will add it when I am more proficient with `pivot_wider()` function haha).
+
+### join
+
+This is another useful function when we have multiple datasets/files and we want to combine them into one dataset.
+
+Here, we are going to continue using the `performance` dataset. Let's say that we also documented their Biology exams in another file.
+
+```{r}
+performance_biology <- data.frame(
+   Name = c("Kelly", "Liam", "Henry", "Alice", "Jake", "Dan"),
+   Bio_C1 = c(80, 80, 83, 93, 80, 88),
+   Bio_C2 = c(73, 76, 75, 77, 79, 83),
+   Bio_C3 = c(90, 93, 94, 90, 81, 82))
+```
+
+We pull out the original performance data, and want to add these biology columns on it.
+
+```{r}
+performance_original |>
+  left_join(performance_biology, by = "Name") 
+```
+
+Here, we can see that we have successfully added the biology columns on the original dataset. Of course, when we have multiple independent variables (columns), we can use `by = c("column1", "column2", …)` to specify the left join basis.
+
+Yes. You guess right. There is also a `right_join()` in RStudio. Although it may not be as often used as the `left_join()` (in my usual data analysis), I still sometimes use it. So let us look at the differences between `left_join()` and `right_join()`.
+
+`left_join()`: keeps data on the left, even if there is no matching data on the right.
+
+`right_join()`: keeps data on the right, even if there is no matching data on the left.
+
+If they encountered missing data, they will put an `NA` on it. It is as simple as that but still extremely powerful (and magical).
+
+### bind
+
+Except for left and right join, there is another way to combine different datasets into one.
+
+```{r}
+dataset1 <- data.frame(
+  brand = c("1","2","3"),
+  price = c(200, 300, 250),
+  profit = c(100, 200, 200))
+dataset2 <- data.frame(
+  brand = c("1","2","3"),
+  sales = c(20, 40, 60))
+```
+
+We have created two separate datassets. One contains a product's brand, price, and profit. The other contains the sales number.
+
+```{r}
+cbind(dataset1, dataset2) -> merged_data
+merged_data
+```
+
+Through `cbind` (column bind), we can merge two datassets.
+
+However, we can also see that it repeated the column `brand` into the merged data. If this does not affect your future analysis, then you could leave it. Or you could simply use `left_join()` (as mentioned above) to do the binding without creating the extra column.
+
+```{r}
+dataset1 |>
+  left_join(dataset2, by = "brand")
+```
+
 ## Statistical Analysis
 
+### t-test
+
+Let us look at the strength difference from different publishers.
+
+```{r}
+heroes2 |>
+  group_by(Publisher) |>
+  summarize(mean_strength = mean(Strength, na.rm = TRUE))
+```
+
+We can see from the result that the mean strength of difference publishers are different. However, is the difference significant?
+
+Let us look at DC Comics vs Marvel Comics.
+
+```{r}
+heroes2 |>
+  filter(Publisher %in% c("Marvel Comics", "DC Comics")) |>
+  group_by(Publisher) |>
+  summarize(Strengths = list(Strength)) |>
+  with(t.test(Strengths[[1]], Strengths[[2]], paired = FALSE))
+```
+
+That looks complicated. I do not normally use that.
+
+I first `subset` different groups of data.
+
+```{r}
+subset(heroes2, Publisher == "Marvel Comics") -> marvel
+subset(heroes2, Publisher == "DC Comics") -> DC
+```
+
+Then, I calculate the difference between these two groups of data using `t.test()`.
+
+```{r}
+heroes2 |>
+  with(t.test(marvel$Strength, DC$Strength, paired = F))
+```
+
+We can see from the result that there is no significant difference on strength level between heroes from DC comics and from Marcel comics.
+
+Here, because the heroes from DC universe are different from the heroes from Marvel universe. Thus, we cannot use `pairwise` t-test.
+
+However, when we are calculate a same group of people doing different tasks (or doing same task repeatedly), then we can use `pairwise` t-test.
+
+I hope you still remember the performance data. Let us say we want to look at if there is any difference between exam scores of Chapter 1 and Chapter 3.
+
+```{r}
+# group them first
+subset(performance, Subject_em == "Eng" & Chapter == "C1") -> eng_c1
+subset(performance, Subject_em == "Eng" & Chapter == "C3") -> eng_c3
+
+performance |>
+  with(t.test(eng_c1$Score, eng_c3$Score, paired = T))
+```
+
+### ANOVA
+
+Here is a template for `anova_test()`.
+
+```{r}
+library(rstatix)
+```
+
+```{r, eval=FALSE}
+heroes2 |>
+  anova_test(
+    dv = # dependent variable, 
+    wid = # subject name/id, 
+    type = NULL, # default: type II ANOVA
+    between = # between-subject independent variable,
+    within = # within-subject independent variable,
+    effect.size = "ges", 
+    error = NULL,
+    white.adjust = FALSE,
+    observed = NULL,
+    detailed = TRUE
+  )
+```
+
+-   `detailed = F` is the default. However, I would like my results a bit more informative. Thus, I would normally change it to `detailed = T`.
+
+-   `type = NULL` is the default. It uses type 2 ANOVA. When needed to change, just switch it from `NULL` to `1` or `3`.
+
+-   You can add `covariate =` below `within =`, above `type =` , for ANCOVA.
+
+-   `effect.size =` is the effect size to compute.
+
+    -   `pes` (partial eta squared)
+
+    -   `ges` (generalized eta squared) **Default**
+
+    -   The `Help` section in RStudio says I could choose both, but I haven't figure out how to do so yet.
+
+#### one-way ANOVA
+
+##### example 1: strength \~ intelligence
+
+IV: intelligence
+
+DV: strength
+
+```{r}
+heroes2 |>
+  anova_test(
+    dv = Strength, 
+    wid = Name, 
+    between = Intelligence,
+    detailed = T 
+  )
+```
+
+##### example 2: strength \~ gender
+
+IV: gender
+
+DV: strength
+
+```{r}
+heroes2 |>
+  anova_test(
+    dv = Strength, 
+    wid = Name, 
+    between = Gender,
+    detailed = T 
+  )
+```
+
+#### two-way ANOVA
+
+##### example 1: strength \~ BMI_status \* gender
+
+```{r}
+heroes2 |>
+   anova_test(
+    dv = Strength, 
+    wid = Name, 
+    between = c(Gender, BMI_status), 
+    detailed = TRUE
+  ) 
+```
+
+Careful of the ANOVA type. Even if I did not specify which types of ANOVA I want to use, the system chose `type III` for me. Add `type = 2` if you would like to stick with `type II` ANOVA.
+
+##### example 2: strength \~ gender \* BMI
+
+```{r, eval = FALSE}
+heroes2 |>
+  anova_test(
+    dv = Strength, 
+    wid = Name, 
+    between = c(Gender, BMI), 
+    detailed = T 
+  )
+```
+
+However, we would encounter an error here. Why is that?
+
+*Step 1*
+
+We examine if the two independent variables are in different types. For example, **categories** and **numerical** variables. This would happen if we put `Gender` (category) and `BMI` (numbers) in the `between =` section.\
+Solutions: 1. change the numerical columns into categorical column. For example, categorize BMI into different levels like obese, overweight, normal, and underweight. (We did this in the previous section, so I am just going to put the end code here). 2. use ANCOVA (continuous \* category \~ continuous) instead of ANOVA. Simply put the numerical variables in the `covariate =` section. I will not go further on this topic here as we are in the `ANOVA` section, and as I am not familiar with ANCOVA. Will come back when I use it more often.
+
+```{r}
+# solution 1
+heroes2 |>
+   anova_test(
+    dv = Strength, 
+    wid = Name, 
+    between = c(Gender, BMI_status), 
+    detailed = T 
+  )   
+```
+
+```{r}
+# solution 2 (ANCOVA)
+heroes2 |>
+   anova_test(
+    dv = Strength, 
+    wid = Name, 
+    between = Gender, 
+    covariate = BMI,
+    detailed = T 
+  )   
+```
+
+##### example 3: strength \~ gender \* Intelligence
+
+Let us take a look at another example.
+
+We know in the `heroes2` data, the `Intelligence` is a **categorical variable**. Heroes' intelligence levels is labelled as `high`, `good`, `average`, `moderate`, and `low`.
+
+```{r}
+heroes2 |>
+  distinct(Intelligence)
+```
+
+Therefore, it should not encounter the same problem as example 2.
+
+```{r, eval = FALSE, error = TRUE}
+heroes2 |>
+  anova_test(
+    dv = Strength, 
+    wid = Name, 
+    between = c(Gender, Intelligence), 
+    detailed = T)
+```
+
+However, we still see errors here. If we finished examining that the *Step 1* is not the issue here. We can try to debug using the following ways.
+
+*Step 2*
+
+We examine both independent variables separately to make sure they are both working fine individually. Just delete one of the variables each time to make sure. (Usually this is not the problem, but just in case, I would still check it)
+
+-   checking variable `Gender`
+
+```{r}
+heroes2 |>
+  anova_test(
+    dv = Strength, 
+    wid = Name, 
+    between = Gender, 
+    detailed = T)
+```
+
+-   checking variable `Intelligence`
+
+```{r}
+heroes2 |>
+  anova_test(
+    dv = Strength, 
+    wid = Name, 
+    between = Intelligence, 
+    detailed = T)
+```
+
+Both variables look fine and the code work smoothly individually.
+
+*Step 3*
+
+We examine if there are any **missing values** in any of the category. (I often forgot about this step, and got confused on how my ANOVA did not work for hours...)
+
+```{r}
+table(heroes2$Gender, heroes2$Intelligence)
+```
+
+Here, we can see that in female heroes, low intelligence level, there is a zero. This would make the ANOVA unable to proceed. Now we found the problem, we could simply remove the `intelligence == "low"` from our analysis as it hinders it.
+
+```{r}
+heroes2 |>
+  filter(Intelligence != "low") |>
+   anova_test(
+    dv = Strength, 
+    wid = Name, 
+    between = c(Gender, Intelligence), 
+    type = 2,
+    detailed = T)   
+```
+
+Maybe you would think: I'll just add `group_by()` before the `anova_test()`. However, while this would work, it would not be **two-way ANOVA** as we wanted. Instead, it would just separate the data into two groups before performing **one-way ANOVA** on each. See the codes below:
+
+```{r}
+heroes2 |>
+  filter(Intelligence != "low") |>
+  group_by(Gender) |>
+   anova_test(
+    dv = Strength, 
+    wid = Name, 
+    between = Intelligence, 
+    detailed = T 
+  )   
+```
+
+We can see the result table is different from the two-way ANOVA table (refer to the upper table), as well as the numbers are different. (See `DFn` and `DFd` in both results.)
+
+#### three-way ANOVA
+
+##### example 1: intelligence \~ gender \* intelligence \* BMI_status
+
+If we want to add more independent variables, we could just add more column names in the `between =` section.
+
+```{r}
+heroes2 |>
+  filter(Intelligence != "low") |>
+   anova_test(
+    dv = Strength, 
+    wid = Name, 
+    between = c(Gender, Intelligence, BMI_status), 
+    type = 2,
+    detailed = T 
+  )   
+```
+
+Note that if the independent variable is within subject (if this is an mixed analysis), then we put the independent variables that is **within subject** in the `within =` section. This is often used when analyze experiment results and want to analyze for example the test score before learning and after learning. See below to know more about the mixed ANOVA.
+
+#### mixed ANOVA
+
+As mentioned, mixed ANOVA is more often used in analyze experiment results as it would be difficult to obtain individual changes over time with other methods.
+
+Let us assume a high school is trying to know if different teaching styles affect students' exam scores. They performed experiments on students, separating them into two groups, one group received education in a fun way, the other in a rigid way. The school also performed exams before they learn the subject and after learning.
+
+-   Independent variable: teaching style (fun/rigid), exam time (before/after)
+
+-   Dependent variable: exam score
+
+```{r}
+teaching_style <- data.frame(
+  student = c("1", "2", "3", "4", "5", "6", 
+              "1", "2", "3", "4", "5", "6"),
+  style = as.factor(c("fun", "rigid", "fun", "rigid", "fun", "rigid",
+                      "fun", "rigid", "fun", "rigid", "fun", "rigid")),
+  timing = as.factor(c("before", "before", "before", "before", "before", "before", 
+                       "after", "after", "after", "after", "after", "after")),
+  score = c(50, 13, 10, 70, 23, 70, 70, 90, 66, 83, 80, 80)
+  )
+```
+
+The data frame is created. There are 6 students in total. 3 attended the `fun` style teaching, 3 experienced the `rigid` style. All of their `before` and `after` exam scores are also presented.
+
+Here, we want to see if the teaching style made differences on their score.
+
+```{r}
+teaching_style |>
+   anova_test(
+    dv = score, 
+    wid = student, 
+    between = style, 
+    within = timing,
+    detailed = T)   
+```
+
+By the analysis, we can see that the style does not have a significant impact on their scores. However, we can see that there is a main effect on `timing` variable.
+
+We can through looking into the means of the score of different timing to know that the students perform better after learning, no matter what kinds of learning style was implemented on them.
+
+```{r}
+teaching_style |>
+  group_by(timing) |>
+  summarise(mean_score = mean(score))
+```
+
+**Additional notes**
+
+-   add `filter()` to choose specific groups you wanted in your analysis. For instance, `filter(Intelligence %in% c("high", "good")` or `filter(Hair_color != "No Hair")`
+-   `group_by()` could still come in handy when you want to see both conditions' ANOVA result.
+
+### Post hoc analysis
+
+After ANOVA, if we want to dig deeper into the data (and if the ANOVA has significant result), we can use post hoc analysis.
+
+I used to get confused regarding post hoc analysis and pairwise t test. Note that post hoc analysis comes **after** we retrieved a significant result from ANOVA, while pairwise t-test can be implemented on whatever two groups of data.
+
+```{r}
+teaching_style |>
+ group_by(style) |>
+  pairwise_t_test(
+    score ~ timing,
+    paired = TRUE,
+    p.adjust.method = "bonferroni"
+  )
+```
+
+Here, we use post hoc analysis
+
+-   `score ~ timing`: we put the **dependent variable** on the left, the **independent variable** on the right. Here, we compare the `scores` under different exam `timing`.
+
+-   `paired =` if it was repeated measures, then `TRUE`, if not (implemented on different participants, aka between-subject), then `FALSE`.
+
+-   `p.adjust.method`: allows us to choose the method for adjusting p values.
+
+### Regression analysis
+
 ## Data Visualization
+
+### bar chart
+
+We took the `heroes` dataset as an example again.
+
+```{r}
+heroes2 |>
+  ggplot(aes(x = Gender, y = Strength)) +
+  geom_bar(stat = "summary", position = position_dodge(.8), width = .7, fill = "#BDD5EA") +
+  geom_errorbar(stat = "summary", position = position_dodge(0.5), width = .12) +
+  facet_wrap(Intelligence ~ ., scales = "free") 
+```
+
+Looks like a lot had happened during in the code chunk, also a lot of information from the graphs.
+
+Let us start with the code.
+
+-   in `ggplot()`, we specify the `x` axis and `y` axis.
+
+-   `geom_bar()` creates bar chart.
+
+    -   `stat = "summary"` helps you calculate the mean value of the y-axis, `Strength` in this case.
+
+    -   `position = position_dodge()`
+
+    -   `width =` is the width of the bar. When the `width = 1`, the bars would stick together.
+
+    -   `fill =` can either be a single color (like in this example), or could be other variables.
+
+-   `geom_errorbar()` helps calculate the standard error of the value, then presented it on the graph.
+
+    -   the `width`, `fill`, `position` remain the same functions as in `geom_bar()`
+
+-   `facet_wrap()` helps you to separate graphs according to the variable you put in.
+
+    -   You can either do `<your variable> ~.` or `~ <your variable>`.
+
+    -   The `scales = "free"` helps change the y-axis of each graph according to their maximum values. It is however not recommended in some situations, we will explain below.
+
+Then, let's take a look at the graph. We can see a few things:
+
+1.  The graphs were separated by different intelligence levels.
+2.  In the **low** intelligence group, there is only male heroes' strength data. Indicating there is no female heroes in the low intelligence group.
+3.  The y-axis scale is different from one graph to another. Although it is good that the program changes the scale according to our data, it might hinder some vital information. For example, in the `good` intelligence group and the `high` intelligence group, we will explain how to adjust the situation in the **scales** section.
+
+If we do not want to use `facet_wrap()` on the graph, we can also use different ways to distinct different categories. For exapmle, if we put `fill =` with a variable, then we can ask RStudio to help us fill different colors for each category.
+
+```{r}
+heroes2 |>
+  ggplot(aes(x = Gender, y = Strength, fill = Intelligence)) +
+  geom_bar(stat = "summary", position = position_dodge(.8), width = .7) +
+  geom_errorbar(stat = "summary", position = position_dodge(.8), width = .12) 
+```
+
+### scatter plot
+
+```{r}
+heroes2 |>
+  ggplot(aes(x = Height, y = Strength, color = Gender, shape = Gender)) +
+  geom_point() +
+  geom_smooth(method = "lm")
+```
+
+We can see from the plot that this is probably not the best data to demonstrate scatter plot when the outliers are obviously affecting the aesthetics. Let us try to move out that male hero on the very right side of the graph. Since we are removing the hero (row), therefore we need to use `filter()` to help us out.
+
+```{r}
+heroes2 |>
+  filter(Height < 250) |>
+  ggplot(aes(x = Height, y = Strength, color = Gender, shape = Gender)) +
+  geom_point() +
+  geom_smooth(method = "lm") 
+```
+
+Now that we have a clearer scatter plot, let us take a look inside the code.
+
+In the `aes()` section, we can see that I identify the color AND the shape with `Gender`. Usually one kinds of specification would work, however, sometimes the color might not be easily identifiable. Therefore, it is useful to add another features in this category to make your graph more readable.
+
+-   `geom_point()` is what we use to identify each data point as a point on the graph. Thus, creating the scatter plot.
+
+-   `geom_smooth()` is adding trend lines on the data. Here by using `method = "lm"` meaning that we use linear model, which keeps the line straight.
+
+I am a bit tired of the data we have been using so far, so let us find a new fun dataset.
+
+This dataset is inside an R package called `openintro`. It contains lots of datasets. We are using one of them called `movies`.
+
+```{r, eval = FALSE}
+install.packages("openintro")
+```
+
+```{r}
+library("openintro")
+movies
+```
+
+In this dataset, there are 5 columns and 140 rows. They are movies released in 2003. The data contains the movie title, genre, score (by critics on a scale 0-100), MPAA rating, and `box_office` (millions of dollars earned at the box office in the US and Canada.)
+
+You can type `movies` on the `help` section on the bottom-right panel to see a more detailed description of the data.
+
+```{r}
+movies |> 
+  ggplot(aes(x = box_office, y = score)) + geom_point() +
+  geom_smooth(method = "lm")
+```
+
+We can see from the graph, that there seems to be a positive relationship between the `box_office` and `score`.
+
+### box plot
+
+A boxplot helps us see the interquartile range in our data. This is useful when you are comparing categorical variable and numerical values.
+
+```{r}
+movies |>
+  ggplot(aes(x = score, y = rating)) +
+  geom_boxplot() 
+```
+
+### histogram
+
+```{r}
+movies |>
+  ggplot(aes(x = score)) +
+  geom_histogram()
+```
+
+```{r}
+movies |>
+  ggplot(aes(x = score)) +
+  geom_histogram(binwidth = 1)
+```
+
+```{r}
+movies |>
+  ggplot(aes(x = score)) +
+  geom_histogram(binwidth = 10)
+```
+
+-   `binwidth` controls the thickness of columns, if it is very thin (`binwidth = 1`), then you would see each data clearly, however, this is not the best case when we want to see a general trend of the data. Therefore, I would recommend try out different `binwidth` numbers until you find the one that suits your data the most.
+
+```{r}
+movies |>
+  ggplot(aes(x = score, color = rating)) +
+  geom_histogram(binwidth = 5)
+```
+
+We can see that the `color` controls the **outline** color of the bar. While `fill` controls the bar itself.
+
+```{r}
+movies |>
+  ggplot(aes(x = score, fill = rating)) +
+  geom_histogram(binwidth = 5)
+```
+
+### density plot
+
+Density plots look like when we connect each high points of the histogram, and create a smoother line of the data.
+
+```{r}
+movies |>
+  ggplot(aes(x = score)) +
+  geom_density()
+```
+
+We can also separate data into sub categories.
+
+```{r}
+movies |>
+  ggplot(aes(x = score, fill = rating, color = rating)) +
+  geom_density()
+```
+
+However, this graph is a bit difficult to read. One reason is that there are data overlap. We are unable to see data underneath rating `R` and `PG-13` clearly. Therefore, we are going to change the `transparancy` of our graph.
+
+```{r}
+movies |>
+  ggplot(aes(x = score, fill = rating, color = rating)) +
+  geom_density(alpha = 0.5)
+```
+
+We can also separate them more distantly by using `geom_density_ridges()`.
+
+```{r, eval = FALSE}
+install.packages("ggridges")
+```
+
+```{r}
+library(ggridges)
+
+movies |>
+  ggplot(aes(x = score,y = rating,  fill = rating, color = rating)) +
+  geom_density_ridges(alpha = 0.6)
+```
+
+### additional features on the plot
+
+#### labels
+
+A good graph contains informative labels. Of course you could add title, subtitle, and other labels after you have downloaded the graph on other software. However, it would be more efficient and cause fewer mistakes when we can finish labelling all at once.
+
+```{r}
+movies |>
+  ggplot(aes(x = score,y = rating,  fill = rating, color = rating)) +
+  geom_density_ridges(alpha = 0.6) +
+  labs(
+		title = "Movie Scores of Different MPAA Ratings.",
+		subtitle = "Put your subtitle here because I don't know what to say.",
+		x = "Movie Score",
+		y = "MPAA Rating",
+		fill = "Rating",
+		color = "Rating",
+		caption = "sources: movies from openintro"
+		)
+```
+
+If we do not want to present any label, we can also specify it and let the program to delete them for us.
+
+```{r}
+movies |>
+  ggplot(aes(x = score,y = rating,  fill = rating, color = rating)) +
+  geom_density_ridges(alpha = 0.6) +
+  labs(
+		x = NULL,
+    fill = NULL,
+		color = NULL,
+		fill = NULL)
+```
+
+We can see from the code chunk above, when we put `NULL` for the `x-axis`, the label will not appear in the graph. However, when we did not put `y-axis` on the `labs()`, the y-axis would still present the label from your original data.
+
+Also, if you would like to remove the legend as well, you could do that in `theme()`.
+
+```{r}
+movies |>
+  ggplot(aes(x = score,y = rating,  fill = rating, color = rating)) +
+  geom_density_ridges(alpha = 0.6) +
+  labs(x = NULL, y = NULL) + 
+  theme(legend.position = "hide")
+```
+
+
+### 不知道怎麼改label欸 頭痛 ㄞ 可以mutate但好麻煩呀
+
+
+
+
+#### colors
+
+Let us demonstrate how to change colors in graph with another dataset!
+
+In this data `lego_sample`, there are different lego sets, pieces, recommended retail price, prices on Amazon, sizes and so on.
+
+```{r}
+lego_sample
+```
+
+```{r}
+lego_sample |>
+  na.omit() |>
+  ggplot(aes(x = size, y = price, fill = as.factor(minifigures))) +
+  geom_bar(stat = "summary", position = "dodge")
+```
+
+For easier demonstration, we are going to look into legos only with 1 to 3 minifigures.
+
+```{r}
+lego_sample |>
+  na.omit() |>
+  filter(minifigures <= 3) |>
+  ggplot(aes(x = size, y = price, fill = as.factor(minifigures))) +
+  geom_bar(stat = "summary", position = "dodge")
+```
+
+Now we are all set!
+
+```{r}
+lego_sample |>
+  na.omit() |>
+  filter(minifigures <= 3) |>
+  ggplot(aes(x = size, y = price, fill = as.factor(minifigures))) +
+  geom_bar(stat = "summary", position = "dodge") +
+  scale_fill_manual(values = c("darkblue","yellow","pink"))
+```
+
+As simple as that! Also note that you only need to type each color once. For example, in our graph, although color `"darkblue"`, `"yellow"`, `"pink"` all appeared twice, we only need to type them once in stead of `values = c("darkblue", "yellow", "pink", "darkblue", "yellow", "pink")`.
+
+If you do not want the default colors, but are too lazy to pick distinct color each time you draw, we can use some color palettes inside RStudio.
+
+```{r, eval = FALSE}
+install.packages("viridis")
+```
+
+```{r}
+library(viridis)
+```
+
+You can also add lines around the chart to make them pop up more.
+
+```{r}
+lego_sample |>
+  na.omit() |>
+  filter(minifigures <= 3) |>
+  ggplot(aes(x = size, y = price, fill = as.factor(minifigures))) +
+  geom_bar(stat = "summary", position = "dodge", color = "black") +
+	scale_fill_viridis_d() 
+```
+
+Note that we use `scale_fill_viridis_d()` here. When you are using `color =` instead of `fill =`, remember to switch to `scale_color_viridis_d()`.
+
+```{r}
+lego_sample |>
+  na.omit() |>
+  filter(minifigures <= 3) |>
+  ggplot(aes(x = size, y = price, color = as.factor(minifigures))) +
+  geom_bar(stat = "summary", position = "dodge", fill = "white") +
+	scale_color_viridis_d() 
+```
+
+#### scales
+
+Let us look at some data from `heroes2` dataset.
+
+```{r}
+heroes2 |>
+  filter(Intelligence %in% c("good", "high")) |>
+  ggplot(aes(x = Gender, y = Strength)) +
+  geom_bar(stat = "summary", position = position_dodge(.8), width = .7) +
+  geom_errorbar(stat = "summary", position = position_dodge(0.5), width = .12) +
+  facet_wrap(Intelligence ~ ., scales = "free") 
+```
+
+Let us take a quick glanse at the chart. Looks like `good` intelligence group has higher strength than `high` intelligence group as the bar is higher.
+
+However, is it really the case?
+
+Take a deeper look at these two bar charts. The y-axis scale is different from one graph to another.
+
+To be sure, let us calculate their average strength between two groups.
+
+```{r}
+heroes2 |>
+  filter(Intelligence %in% c("good", "high")) |>
+  group_by(Intelligence, Gender) |>
+  summarise(mean_strength = mean(Strength))
+```
+
+We can see from the result that in the `good` intelligence group, the mean strength of both genders are lower than the `high` intelligence group. However, in the graph, if we did not pay attention to the y-axis at first, we might get an wrong impression of the `good` intelligence group has higher strength than the `high` intelligence group.
+
+If we want to resolve this issue, we can manually change the scale by using `coord_cartesian()`. We can either remove the `scales = "free"` or leave it there. Since the code was implemented layer by layer, when we added the manual scale after `scales = "free"`, then the graph would not be affected.
+
+```{r}
+heroes2 |>
+  filter(Intelligence %in% c("good", "high")) |>
+  ggplot(aes(x = Gender, y = Strength)) +
+  geom_bar(stat = "summary", position = position_dodge(.8), width = .7, fill = "#BDD5EA") +
+  geom_errorbar(stat = "summary", position = position_dodge(0.5), width = .12) +
+  facet_wrap(Intelligence ~ ., scales = "free") +
+  coord_cartesian(ylim = c(0,100)) 
+```
+
+After putting each graph on the same scale, it would be a lot easier to look into the relationships between graphs.
+
+You can modify the `ylim()` number according to your data.
+
+#### themes
+
+`theme()` is the function to change the theme of the graph. I commonly use `theme_classic()`, `theme_light()`, or the default `theme_gray()`.
 
 ## Efficiency Tips for Data Processing
 
 ## Data Export
 
 ## Colclusion and Advanced Learning
-
-
-
-
-
-
-
-
-
-
-### 
-
-
-## my happy universe with tidyverse
-
-I really love tidyverse. It is a game changer. Three packages I use most often in tidyverse are:
-
-1.  `ggplot2`
-2.  `dplyr`
-3.  `tidyr`
-
-But first we need to know what it is.
-
-`Tidyverse` contains several packages, making data transformation and visualization (and my life) easier. Under the umbrella of `tidyverse`, we will be able to wrangle with data like a pro.
-
-We will delve deeper into the land of `ggplot2` in the future chapter. Here, we focus on `dplyr` and `tidyr` first.
-
-**If you have not use `tidyverse` before, you need to download the package first.**
-
-```{r}
-#install.packages("tidyverse")
-#install.packages("dplyr")
-#install.packages("tidyr")
-```
-
-Next, let us not forget to also **call out** our packages, which we use `library()` function for the job.
-
-```{r}
-library("tidyverse")
-library("dplyr")
-library("tidyr")
-```
-
-You are all set.
-
-Before we jump into anything, let us meet a funny-looking friend. *The pipe.*
-
-It looks like this:
-
-```{r}
-#%>%
-```
-
-In my humble opinion, this is one of the greatest analogy in this century. Although the way it looks (`%>%`) does not strike me as a real pipe at all.
-
-Let us use an example to see how it works.
-
-### babynames
-
-`babynames` package is a built-in R package. It contains baby names in the US from year 1880 to year 2017.
-
-```{r}
-#install.packages("babynames")
-library(babynames)
-```
-
-We can take a look at the data.
-
-```{r}
-View(babynames)
-```
-
-RStudio should have created a separate page for the data. We can see that there are 5 columns: `year`, `sex`, `name`, `n`, and `prop`.
-
-Wait, what are `prop`?
-
-When we encounter questions like this, we can type `?+function/dataset` on the Console area. In this case, we typed `?babynames`.
-
-Once we hit enter, we can see the Help screen on the right side popped up some information. After reading the explanation of this dataset, we learned that `prop` means `n` divided by all babies of that sex with that name born in that year.
-
-Now, let's say we want to know names of babies born in year 2000.
-
-```{r}
-babynames %>%
-	filter(year == 2000)
-```
-
-Here we see all the baby names in 2000!
-
-In the code, I used `%>%` to direct my dataset `babynames` into the next function `filter()`.
-
-Inside the `filter()` function, I told the program I want babies who were born in year 2000. In other words, I filtered out the babies which in the 'year' column, says '2000'.
-
-A good thing about the `%>%` is that you can build one after another. Just like you can direct the water from east to west, then from west to north.
-
-Let's try it out.
-
-```{r}
-babynames %>%
-	filter(year == 2000) %>%
-	filter(sex == "F")
-```
-
-Here we put F with a quotation mark because it is a character, instead of a number. We need to specify that so that RStudio can understands us.
-
-Now the data is showing female babies who were both born in year 2000.
-
-We can also acquire this output in another way.
-
-```{r}
-babynames %>%
- filter(year == 2000 & sex == "F")
-```
-
-Let us do more data transformation in the next chapter.
- 
-## t-tests(with graph)
-
-library(ggplot2)
-
-    binded_2122$year = as.factor(binded_2122$year)
-
-    binded_2122 %>%
-      ggplot(aes(x = year, y = ceo_compensation)) +
-      geom_bar(stat = "summary", position = position_dodge(.9), width = .35, fill = "#BDD5EA") +
-      geom_errorbar(stat = "summary", position = position_dodge(.9), width = .12) +
-      #facet_wrap(emotion ~ ., scales = "free")+
-      theme_classic()
-
-
-    ado_chi_acc_rt %>%
-      group_by(Subject,age, Consistency, Operation) %>%
-      summarise(acc = mean(Response_ACC)) -> semi
-    ado_chi_acc_rt %>%
-      group_by(Subject,age, Consistency, Operation) %>%
-      summarise(medi_rt = median(Response_RT)) -> semi_rt
-    semi %>%
-      left_join(semi_rt, by = c("Subject", "age", "Consistency","Operation")) -> all_age
-
-    all_age %>%
-      ggplot(aes(x = Operation, y = acc, group = Consistency, fill = Consistency)) +
-      geom_bar(stat = "summary", position = position_dodge(.8), width = .8) +
-       facet_wrap(age~ ., scales = "free")+
-      coord_cartesian(ylim = c(0.5,1.05))+
-      geom_errorbar(stat = "summary", position = position_dodge(.8), width = .12) +
-      theme_light()
-
-## ANOVAs(also with graphs)
-
-    all_age %>%
-     # filter(age == "chi")%>%
-    #  filter(Operation == "add") %>%
-      group_by(age) %>%
-      anova_test(
-        dv = acc,
-        wid = Subject,
-        type = NULL,
-       #  between = age,
-        # within = operation,
-        within = c(Consistency,Operation),
-       # within = Consistency, 
-        effect.size = "ges", #generalized eta squared
-        error = NULL,
-        white.adjust = FALSE,
-        observed = NULL,
-        detailed = F) 
-
-## pivot your data like a pro
-
-    ado_roi %>%
-      pivot_longer(!Subject, names_to = "key", values_to = "value") -> ado_long_data
-    View(ado_long_data)
-
-    separate(
-      ado_long_data,
-      col = key,
-      into = c('Position', 'Location', 'snn', 'sn_num', 
-               'Consistency', 'Operation', 'problemsize',
-               'bf', 'n1'),
-      sep = "[^[:alnum:]]+",
-      remove = TRUE,
-      convert = FALSE
-    ) -> ado_dt
-    View(ado_dt)
-
-## left join right join
-
-    sub_RT %>%
-       left_join(sub_acc, by = c("subject")) -> sub_RT_acc
-
-## different kinds of binding
-
-    cbind(ado_dt, ado_roi_neat) -> ado_bind
-    View(ado_bind)
-
-## select columns & filter rows
-
-Functions I use really often are `select` and `filter`. The difference between them is that `select` is for columns, and `filter` is for rows.
-
-Let us assume that there is a dataset with 6 columns, but we only need to use 2 columns.
-
-```{r}
-family <- data.frame(name = c("Amy","Bob","Connie","Dave") ,
-                     age = c(4,14,6,8),
-                     hobby = c("Coding","Coding","Boldering","Filming"),
-                     house = c("Ravenclaw","Slytherin","Slytherin","Gryffindor"),
-                     team = c("cat","dog","cat","dog"),
-                     food = c("chocolate","candy","fries","fries"))
-```
-
-This is another made-up dataset recording different children in a big family. It recorded their names, ages, hobbies, Hogwarts houses, team cat or team dog, and favorite foods.
-
-```{r}
-family
-```
-
-### select
-
-Now we only need to know their names and their age. Therefore, we can use `select` function to choose these two columns.
-
-```{r}
-family %>%
-  select(c("name","age")) 
-```
-
-### filter
-
-Now, for some reason, we want to know who is in house Slytherin. Thus, we can use `filter` to pull these people out.
-
-```{r}
-family %>%
-  filter(house == "Slytherin") 
-```
-
-That's it!
-
-If we want to see who is in house Slytherin and Ravenclaw, then we can use `%in%` to let our R Studio know that we want people with **either** of the houses.
-
-```{r}
-family %>%
-  filter(house %in% c("Slytherin", "Ravenclaw"))
-```
-
-**bonus**
-
-If we want to **only** see the names of people who are in the Slytherin house. We can combine our `select` and `filter` function together, using our useful `pipe`.
-
-```{r}
-family %>%
-  select(c("name","house")) %>%
-  filter(house == "Slytherin")
-```
-
-Note that we need to also put "house" in our column of selection. If you only put "name" in it, then the R Studio would not be able to find the house Slytherin on the next step.
-
-In other words, if you only put `select("name") %>%`, instead of `select(c("name","house")) %>%`, R Studio will give you an error message saying that object 'house' not found. I know that because I just met this error message :D
-
-## mutate
 
 ## let's draw flags!
 
