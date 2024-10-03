@@ -1216,6 +1216,122 @@ movies |>
   geom_density_ridges(alpha = 0.6)
 ```
 
+### mixed graphs
+
+We are creating
+
+We will be using another package: `GGally`.
+
+```{r, eval = FALSE}
+install.packages("GGally")
+```
+
+```{r}
+library(GGally)
+```
+
+#### categorical \* numeric
+
+Let us say we want to see if there is any relationship between the lego `price` and its `size`.
+
+```{r}
+lego_sample |>
+  ggpairs(columns = c("price", "size"))
+```
+
+Let us take a deeper look at the code and the results.
+
+The `price` in the dataset is a **continuous numeric variable**, while the `size` is an **categorical variable**.
+
+In the result, we can see the top-left panel is the distribution of the `price`. It is a univariate plot as it is `price` vs `price` observed from the columns and rows. Same situation applies to the bottom-right panel. We know that the `size` is a categorical variable, therefore RStudio helps us count the amount of lego in both sizes.
+
+The top-right panel is `price` vs `size`. When comes to **numeric variable** vs **categorical variable**, a boxplot can be informative. Thus, RStudio drew the plot for us. The bottom-left panel conveys the same idea as the top-right, as they are both `price` vs `size`. It separated different sizes (`large` and `small`) and plotted the amount of different prices. Sadly, the graph did not tell us which one belongs to the size `large` and which one is the size `small`.
+
+#### numeric \* numeric
+
+Let us take a look at other variables.
+
+In the dataset, there is a column called `price`, noting the recommended retail price of lego. Also, there is a special column called `amazon_price`. You can guess from the name that this is the lego price on amazon.
+
+```{r}
+lego_sample |>
+  ggpairs(columns = c("price", "amazon_price"))
+```
+
+This graph is different from our examples above. The reason behind is that the two variables here (`price` and `amazon_price`) are both numerical.
+
+Therefore, on the top-left panel contains the density plot of the recommended retail `price`, while on the bottom-right panel there is the `amazon_price`. We can see that the distribution is roughly the same, however, not identical.
+
+On the bottom-right panel, there is a scatter plot of the data. We can see a relatively strong positive correlation between the two variables, as we can see from the top-right panel, in which the correlation coefficient is shown.
+
+#### numeric \* numeric \* numeric
+
+Let us see what would happen if we put only numeric variables inside. Before, we made the variable `minifigures` a `factor` instead of its original `numeric variable`. However, we need numeric variables right now. So we do not need to put `as.factor()` function here.
+
+```{r}
+lego_sample |>
+  ggpairs(columns = c("price", "amazon_price", "minifigures"))
+```
+
+We can see this is a good way to grasp a general idea of the relationships of our data.
+
+If we want some extra information on the graph, for example, we want a trend line on the scatter plot, with the error area.
+
+```{r}
+lego_sample |>
+  ggpairs(columns = c("price", "amazon_price", "minifigures"),
+          lower = list(continuous = wrap("smooth")))
+```
+
+Here, we simply add `lower =` and specify that we want.
+
+-   `lower =` means the lower part from the diagonal line.
+
+-   `continuous =`: we are telling RStudio our data is continuous numerical variable, we put `wrap()` to specify how we want to do with the data.
+
+-   `smooth`: means that we put `geom_smooth` on the lower panel of diagonal line. 
+
+Note that the correlation method used here is the default `"pearson"`. If you would like to change the method, you could put some extra codes here.
+
+```{r}
+lego_sample |>
+  ggpairs(columns = c("price", "amazon_price", "minifigures"),
+          upper = list(continuous = wrap("cor", method = "spearman")),
+          lower = list(continuous = wrap("smooth")))
+```
+
+We now see an `upper =` code here. It is a bit different from the `lower =` part.
+
+-   `cor`: means that we want our upper panels to have correlation coefficient. Here, if we do not want `pearson` method as default, we can use `method =` to specify other correlation coefficient methods.
+
+#### numeric \* numeric \* numeric \* categorical
+
+Now you have learned a few ways to deal with plots inside `ggpairs()`. Let us add some colors on it (literally).
+
+If we want to put a categorical variable here, a good way is to separate different groups by colors. We can specify that on our `aes()` layer.
+
+```{r}
+lego_sample |>
+  ggpairs(columns = c("price", "amazon_price", "minifigures", "size"),
+          mapping = aes(color = size, alpha = .07),
+          upper = list(continuous = wrap("cor", method = "spearman")),
+          lower = list(continuous = wrap("smooth")))
+```
+
+Here, as you can see, I also added transparency `alpha =` as I don't want the plot be too difficult to read by the overlapping graphs.
+
+Below is another coding style to achieve the same result. I personally prefer this one because it separates the steps of selecting columns I want before moving on to the plotting section.
+
+```{r}
+lego_sample |>
+  select(price, amazon_price, minifigures, size) |>
+  ggpairs(mapping = aes(color = size, alpha = .07),
+          upper = list(continuous = wrap("cor", method = "spearman")),
+          lower = list(continuous = wrap("smooth")))
+```
+
+Although `ggpairs()` comes in handy when you want to look at relationships between different variables (i.e., you want to see whether scores from different tests are related), we can also get dizzy from all the graphs. If you are unsure whether this is the most helpful way to present your data, I would recommend do plots separately first, do a density plot or a box plot first, before you mix everything together. It would help you clear out what you want to do with your data, and how to do it in the best way possible.
+
 ### additional features on the plot
 
 #### labels
@@ -1233,8 +1349,7 @@ movies |>
 		y = "MPAA Rating",
 		fill = "Rating",
 		color = "Rating",
-		caption = "sources: movies from openintro"
-		)
+		caption = "sources: movies from openintro")
 ```
 
 If we do not want to present any label, we can also specify it and let the program to delete them for us.
@@ -1262,11 +1377,7 @@ movies |>
   theme(legend.position = "hide")
 ```
 
-
 ### 不知道怎麼改label欸 頭痛 ㄞ 可以mutate但好麻煩呀
-
-
-
 
 #### colors
 
