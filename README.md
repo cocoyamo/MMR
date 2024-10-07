@@ -6,4 +6,4 @@ I have a love-hate relationship with RStudio. On one hand, it gives me so much f
 This page is dedicated to helping you (and me) better grasp RStudio and its powerful magic.
 
 Best, 
-*cocoyamo*
+*Moya*
