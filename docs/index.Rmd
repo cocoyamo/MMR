@@ -1,6 +1,6 @@
 ---
 title: "Hello and welcome to our RStudio journey!"
-author: "by *Moya Chu*"
+author: "by Moya Chu"
 date: "updated: 2024-10-08"
 output:
   html_document: 
@@ -28,7 +28,7 @@ Occasionally, I use RStudio for amusing projects, such as creating national flag
 
 Feel free to leave comments or suggestions. I’m still a beginner in the fascinating world of R and am eager to learn new things!
 
-Best, *Moya*
+Best, Moya
 
 Reykjavik, 2024
 
