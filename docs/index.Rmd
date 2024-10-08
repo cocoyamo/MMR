@@ -1281,16 +1281,16 @@ In the bottom-right panel, a scatter plot shows a strong positive correlation be
 
 #### numeric \* numeric \* numeric
 
-Let us see what would happen if we put only numeric variables inside. Before, we made the variable `minifigures` a `factor` instead of its original `numeric variable`. However, we need numeric variables right now. So we do not need to put `as.factor()` function here.
+What if we add one more numeric variable? We can take a look at the relationship between `price`, `amazon_price`, and `minifigures` (after converting `minifigures` back to a numeric variable).
 
 ```{r}
 lego_sample |>
   ggpairs(columns = c("price", "amazon_price", "minifigures"))
 ```
 
-We can see this is a good way to grasp a general idea of the relationships of our data.
+This gives us a clearer overview of the relationship between multiple numeric variables.
 
-If we want some extra information on the graph, for example, we want a trend line on the scatter plot, with the error area.
+If we want to add more information, like trend lines or confidence intervals, we can use the following code:
 
 ```{r}
 lego_sample |>
@@ -1298,15 +1298,17 @@ lego_sample |>
           lower = list(continuous = wrap("smooth")))
 ```
 
-Here, we simply add `lower =` and specify that we want.
+Here, we simply add `lower =` and specify what we want.
 
--   `lower =` means the lower part from the diagonal line.
+-   `lower =`: Controls the display of the lower part of the graph.
 
--   `continuous =`: we are telling RStudio our data is continuous numerical variable, we put `wrap()` to specify how we want to do with the data.
+-   `wrap()`: Helps us to specify what we want for continuous numeric variables.
 
--   `smooth`: means that we put `geom_smooth` on the lower panel of diagonal line. 
+-   `smoooth`: Creates trend lines on the scatter plot (similar to `geom_smooth`).
 
-Note that the correlation method used here is the default `"pearson"`. If you would like to change the method, you could put some extra codes here.
+-   `continuous =`: Specifies that the data is continuous, allowing us to adjust how it's displayed.
+
+Note that the default correlation method is `"pearson"`. To change this, you can add the `mehtod =` argument to specify another correlation method.
 
 ```{r}
 lego_sample |>
@@ -1315,43 +1317,45 @@ lego_sample |>
           lower = list(continuous = wrap("smooth")))
 ```
 
-We now see an `upper =` code here. It is a bit different from the `lower =` part.
+For the `upper =` part of the graph:
 
--   `cor`: means that we want our upper panels to have correlation coefficient. Here, if we do not want `pearson` method as default, we can use `method =` to specify other correlation coefficient methods.
+-   `upper = "cor"`: Displays the correlation coefficients in the upper panels.
 
 #### numeric \* numeric \* numeric \* categorical
 
-Now you have learned a few ways to deal with plots inside `ggpairs()`. Let us add some colors on it (literally).
+Now that we've explore several ways to plot numeric variables, let's add a categorical variable here. A good way to differentiate groups is by assigning colors to categories in the `aes()` function.
 
-If we want to put a categorical variable here, a good way is to separate different groups by colors. We can specify that on our `aes()` layer.
+#you have learned a few ways to deal with plots inside `ggpairs()`. Let us add some colors on it (literally).
+
+Here's an example:
 
 ```{r}
 lego_sample |>
   ggpairs(columns = c("price", "amazon_price", "minifigures", "size"),
-          mapping = aes(color = size, alpha = .07),
+          mapping = aes(color = size, alpha = .7),
           upper = list(continuous = wrap("cor", method = "spearman")),
           lower = list(continuous = wrap("smooth")))
 ```
 
-Here, as you can see, I also added transparency `alpha =` as I don't want the plot be too difficult to read by the overlapping graphs.
+Adding transparency (`alpha =`) helps reduce clutter in the plot by making overlapping graphs easier to distinguish.
 
-Below is another coding style to achieve the same result. I personally prefer this one because it separates the steps of selecting columns I want before moving on to the plotting section.
+Below is another coding style to achieve the same result, which I prefer. It separates the column selection step from the plotting step, making the code easier to manage.
 
 ```{r}
 lego_sample |>
   select(price, amazon_price, minifigures, size) |>
-  ggpairs(mapping = aes(color = size, alpha = .07),
+  ggpairs(mapping = aes(color = size, alpha = .7),
           upper = list(continuous = wrap("cor", method = "spearman")),
           lower = list(continuous = wrap("smooth")))
 ```
 
-Although `ggpairs()` comes in handy when you want to look at relationships between different variables (i.e., you want to see whether scores from different tests are related), we can also get dizzy from all the graphs. If you are unsure whether this is the most helpful way to present your data, I would recommend do plots separately first, do a density plot or a box plot first, before you mix everything together. It would help you clear out what you want to do with your data, and how to do it in the best way possible.
+Although `ggpairs()` is useful for exploring relationships between different variables (e.g., comparing test scores), it can sometimes become overwhelming with too many plots. If you're unsure whether this approach is the best for your data, I recommend creating individual plots first (e.g., density or box plots) before mixing everything together. This will help clarify the relationships you want to explore and the most effective ways to visualize them.
 
 ### additional features on the plot
 
 #### labels
 
-A good graph contains informative labels. Of course you could add title, subtitle, and other labels after you have downloaded the graph on other software. However, it would be more efficient and cause fewer mistakes when we can finish labelling all at once.
+A good graph includes informative labels. While you could add titles, subtitles, and other labels in separate software after downloading the graph, it's more efficient and reduces the chance of errors if you add all the labels directly in RStudio.
 
 ```{r}
 movies |>
@@ -1367,7 +1371,7 @@ movies |>
 		caption = "sources: movies from openintro")
 ```
 
-If we do not want to present any label, we can also specify it and let the program to delete them for us.
+If you prefer not to show certain labels, you can aslo specify this in the code and let the program remove them for you.
 
 ```{r}
 movies |>
@@ -1380,9 +1384,9 @@ movies |>
 		fill = NULL)
 ```
 
-We can see from the code chunk above, when we put `NULL` for the `x-axis`, the label will not appear in the graph. However, when we did not put `y-axis` on the `labs()`, the y-axis would still present the label from your original data.
+For example, in the code chunk above, when we set the `x-axis` to `NULL`, the label disappears from the graph. However, if we don't specify the `y-axis` in the `labs()` function, the original label from the data will still appear.
 
-Also, if you would like to remove the legend as well, you could do that in `theme()`.
+Also, if you want to remove the legend, you can do so by adjusting the `theme()` function.
 
 ```{r}
 movies |>
@@ -1396,9 +1400,9 @@ movies |>
 
 #### colors
 
-Let us demonstrate how to change colors in graph with another dataset!
+Let's demonstrate how to change colors in a graph with another dataset!
 
-In this data `lego_sample`, there are different lego sets, pieces, recommended retail price, prices on Amazon, sizes and so on.
+In this `lego_sample` dataset, there are various LEGO sets, pieces, recommended retail prices, prices on Amazon, sizes, and more.
 
 ```{r}
 lego_sample
@@ -1411,7 +1415,7 @@ lego_sample |>
   geom_bar(stat = "summary", position = "dodge")
 ```
 
-For easier demonstration, we are going to look into legos only with 1 to 3 minifigures.
+For easier demonstration, we will focus on LEGO sets with 1 to 3 minifigures.
 
 ```{r}
 lego_sample |>
@@ -1421,7 +1425,7 @@ lego_sample |>
   geom_bar(stat = "summary", position = "dodge")
 ```
 
-Now we are all set!
+Now we're all set!
 
 ```{r}
 lego_sample |>
@@ -1432,9 +1436,9 @@ lego_sample |>
   scale_fill_manual(values = c("darkblue","yellow","pink"))
 ```
 
-As simple as that! Also note that you only need to type each color once. For example, in our graph, although color `"darkblue"`, `"yellow"`, `"pink"` all appeared twice, we only need to type them once in stead of `values = c("darkblue", "yellow", "pink", "darkblue", "yellow", "pink")`.
+It's as simple as that! Also, note that you only need to specify each color once. For instance, although the colors `"darkblue"`, `"yellow"`, and `"pink"` appear twice in the graph, we only need to type them once in stead of using `values = c("darkblue", "yellow", "pink", "darkblue", "yellow", "pink")`.
 
-If you do not want the default colors, but are too lazy to pick distinct color each time you draw, we can use some color palettes inside RStudio.
+If you don't want to use default colors but don't feel like manually selecting distinct colors each time, you can use pre-existing color palettes in RStudio.
 
 ```{r, eval = FALSE}
 install.packages("viridis")
@@ -1444,7 +1448,7 @@ install.packages("viridis")
 library(viridis)
 ```
 
-You can also add lines around the chart to make them pop up more.
+You can also add outlines to the bars in the chart to make them pop up more.
 
 ```{r}
 lego_sample |>
@@ -1455,7 +1459,7 @@ lego_sample |>
 	scale_fill_viridis_d() 
 ```
 
-Note that we use `scale_fill_viridis_d()` here. When you are using `color =` instead of `fill =`, remember to switch to `scale_color_viridis_d()`.
+Note that we use `scale_fill_viridis_d()` here. If you're using `color =` instead of `fill =`, remember to switch to `scale_color_viridis_d()`.
 
 ```{r}
 lego_sample |>
@@ -1468,7 +1472,7 @@ lego_sample |>
 
 #### scales
 
-Let us look at some data from `heroes2` dataset.
+Now, let's look at some data from `heroes2` dataset.
 
 ```{r}
 heroes2 |>
@@ -1479,13 +1483,13 @@ heroes2 |>
   facet_wrap(Intelligence ~ ., scales = "free") 
 ```
 
-Let us take a quick glanse at the chart. Looks like `good` intelligence group has higher strength than `high` intelligence group as the bar is higher.
+Take a quick glance at the chart. It seems like the `good` intelligence group has higher strength than the `high` intelligence group as the bar is higher.
 
-However, is it really the case?
+But is that really the case?
 
-Take a deeper look at these two bar charts. The y-axis scale is different from one graph to another.
+Take a closer look at the two bar charts. The y-axis scales are different from one graph to another.
 
-To be sure, let us calculate their average strength between two groups.
+To verify, let's calculate the average strength for both groups.
 
 ```{r}
 heroes2 |>
@@ -1494,9 +1498,9 @@ heroes2 |>
   summarise(mean_strength = mean(Strength))
 ```
 
-We can see from the result that in the `good` intelligence group, the mean strength of both genders are lower than the `high` intelligence group. However, in the graph, if we did not pay attention to the y-axis at first, we might get an wrong impression of the `good` intelligence group has higher strength than the `high` intelligence group.
+We can see from the results that in the `good` intelligence group, the average strength of both genders is actually lower than in the `high` intelligence group. However, without paying attention to the y-axis, we might have gotten the wrong impression that the `good` intelligence group had higher strength than the `high` intelligence group.
 
-If we want to resolve this issue, we can manually change the scale by using `coord_cartesian()`. We can either remove the `scales = "free"` or leave it there. Since the code was implemented layer by layer, when we added the manual scale after `scales = "free"`, then the graph would not be affected.
+To fix this issue, we can manually adjust the scale using `coord_cartesian()`. You can choose to remove `scales = "free"` or leave it there. Since the code is applied in layers, if you add the manual scale after specifying `scales = "free"`, the graph will be unaffected.
 
 ```{r}
 heroes2 |>
@@ -1508,13 +1512,13 @@ heroes2 |>
   coord_cartesian(ylim = c(0,100)) 
 ```
 
-After putting each graph on the same scale, it would be a lot easier to look into the relationships between graphs.
+After setting the same scale for all graphs, it becomes much easier to compare them and observe relationships between variables.
 
-You can modify the `ylim()` number according to your data.
+You can modify the `ylim()` values based on your data.
 
 #### themes
 
-`theme()` is the function to change the theme of the graph. I commonly use `theme_classic()`, `theme_light()`, or the default `theme_gray()`.
+The `theme()` function allows you to change the overall appearance of your graph. Some commonly used themes are `theme_classic()`, `theme_light()`, and the default `theme_gray()`.
 
 ## Efficiency Tips for Data Processing
 
