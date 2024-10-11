@@ -1044,14 +1044,20 @@ In this example, we use post hoc analysis:
 
 ### bar chart
 
-Let's revisit the `heroes` dataset as an example.
+Let's use a new dataset as an example here. In the `lego_sample` dataset, there are various LEGO sets, pieces, recommended retail prices, prices on Amazon, sizes, and more.
 
 ```{r}
-heroes2 |>
-  ggplot(aes(x = Gender, y = Strength)) +
+library(openintro)
+lego_sample
+```
+
+```{r}
+lego_sample |>
+  na.omit() |>
+  ggplot(aes(x = packaging, y = pieces)) +
   geom_bar(stat = "summary", position = position_dodge(.8), width = .7, fill = "#BDD5EA") +
   geom_errorbar(stat = "summary", position = position_dodge(0.5), width = .12) +
-  facet_wrap(Intelligence ~ ., scales = "free") 
+  facet_wrap(theme ~ ., scales = "free") 
 ```
 
 It seems that a lot has happened in the code chunk, and there's quite a bit of information presented by the graphs.
@@ -1062,7 +1068,7 @@ Let's walk through the code.
 
 -   `geom_bar()` creates the bar chart.
 
-    -   `stat = "summary"` calculates the mean value of the y-axis variable, which is `Strength` in this case.
+    -   `stat = "summary"` calculates the mean value of the y-axis variable, which is `pieces` in this case.
 
     -   `position = position_dodge()` separates the bars to avoid overlap.
 
@@ -1082,51 +1088,42 @@ Let's walk through the code.
 
 Now, let's analyze the graph. We can observe a few things:
 
-1.  The graphs are separated by different intelligence levels.
+1.  The graphs are separated by different LEGO themes: "DUPLO®", "Friends", and "City".
 
-2.  In the **low** intelligence group, there is only data for male superheroes' strength, indicating there are no female superheroes in the low intelligence group.
+2.  In the "Friends" and "City" collections, there are only data from the Box packaging method, indicating that there is no data where the LEGO is from "City" or "Friends" collections using Plastic box.
 
-3.  The y-axis scales differ across the graphs. Although the program automatically adjusts the scale based on the data, this might hinder important information. For example, in the `good` and `high` intelligence groups, the difference is harder to discern. We will explain how to address this in the **scales** section.
+3.  The y-axis scales differ across the graphs. Although the program automatically adjusts the scale based on the data, this might hinder important information. For example, in the "City" and "Friends" collections, the difference in pieces is harder to discern. We will explain how to address this in the **scales** section.
 
 If we do not want to use `facet_wrap()` for separating graphs, we can use other ways to distinguish between categories. For exapmle, if we assign a variable to `fill =`, we can ask RStudio to fill different colors for each category.
 
 ```{r}
-heroes2 |>
-  ggplot(aes(x = Gender, y = Strength, fill = Intelligence)) +
+lego_sample |>
+  na.omit() |>
+  ggplot(aes(x = packaging, y = pieces, fill = theme)) +
   geom_bar(stat = "summary", position = position_dodge(.8), width = .7) +
   geom_errorbar(stat = "summary", position = position_dodge(.8), width = .12) 
 ```
 
 ### scatter plot
-
 ```{r}
-heroes2 |>
-  ggplot(aes(x = Height, y = Strength, color = Gender, shape = Gender)) +
+lego_sample |>
+  na.omit() |>
+  ggplot(aes(x = pieces, y = price, color = theme, shape = theme)) +
   geom_point() +
   geom_smooth(method = "lm")
 ```
 
-From the plot, we can see that this may not be the best dataset to demonstrate a scatter plot, as the outliers are obviously affecting the overall aesthetics. Let's remove the male superheroes on the far right of the graph to get a clearer view. Since we are removing a row (superhero), we will use `filter()` to help with this.
+Let's examine the code:
 
-```{r}
-heroes2 |>
-  filter(Height < 250) |>
-  ggplot(aes(x = Height, y = Strength, color = Gender, shape = Gender)) +
-  geom_point() +
-  geom_smooth(method = "lm") 
-```
-
-With the outlier removed, the scatter plot is clearer. Let's examine the code:
-
-In the `aes()` section, I've used both color **AND** shape to differentiate by `Gender`. Usually, one type of distinction is sufficient, but sometimes colors alone may be hard to differentiate. In such cases, adding another feature (e.g., shape) can improve readability.
+In the `aes()` section, I've used both color **AND** shape to differentiate by `theme`. Usually, one type of distinction is sufficient, but sometimes colors alone may be hard to differentiate. In such cases, adding another feature (e.g., shape) can improve readability.
 
 -   `geom_point()` is used to display individual data point, creating the scatter plot.
 
 -   `geom_smooth()` adds trend lines to the data. By setting `method = "lm"`, we apply a linear model, which results in a straight trend line.
 
-I am a bit tired of using the same dataset, so let's switch to another new fun dataset.
 
-This dataset is part of the `openintro` package and contains several datasets. We'll be using one called `movies`.
+
+Next, let's try a different dataset: `movies`. This dataset is part of the `openintro` package and contains several datasets.
 
 ```{r, eval = FALSE}
 install.packages("openintro")
@@ -1400,13 +1397,7 @@ movies |>
 
 #### colors
 
-Let's demonstrate how to change colors in a graph with another dataset!
-
-In this `lego_sample` dataset, there are various LEGO sets, pieces, recommended retail prices, prices on Amazon, sizes, and more.
-
-```{r}
-lego_sample
-```
+Let's demonstrate how to change colors in a graph with the `lego_sample` dataset!
 
 ```{r}
 lego_sample |>
